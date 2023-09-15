@@ -298,63 +298,64 @@ include './shared/loader.php';
 <!-- Header End -->
 
 
-<div class="container" id="profile-app">
+<div class="container" id="edit-app">
+  <div class="row">
     <div class="col-md-6">
-        <h3 class="text-dark" style="font-size: 35px;">PROFILE</h3>
-        <form class="h2">
-            <h2 class="form-control mb-4 bg-warning" >Username:
-                {{username}}</h2>
-            <h2 class="form-control mb-4 bg-warning">Fullname:
-                {{fullname}}</h2>
-            <h2 class="form-control mb-4 bg-warning" >Address:
-                {{address}}</h2>
-            <h2 class="form-control mb-4 bg-warning" >Mobile:
-                {{mobile}}</h2>
-            <h2 class="form-control mb-4 bg-warning">Email:
-                {{email}}</h2>
-            <a class="btn btn-success float-end mt-3 p-4 pt-4" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background: blue; color: white;">Edit</a>
-            <a class="btn btn-warning float-end mt-3 me-2 p-4 pt-4" data-bs-toggle="modal" data-bs-target="#changePasswordModal" style="background: green; color: white;">Change Password</a>
-        </form>
+      <h3 class="text-black" style="font-size: 35px;">PROFILE</h3>
+      <form class="h2">
+        <h2 class="form-control mb-4 bg-white text-black">Username: {{ username }}</h2>
+        <h2 class="form-control mb-4 bg-white text-black">Fullname: {{ fullname }}</h2>
+        <h2 class="form-control mb-4 bg-white text-black">Address: {{ address }}</h2>
+        <h2 class="form-control mb-4 bg-white text-black">Mobile: {{ mobile }}</h2>
+        <h2 class="form-control mb-4 bg-white text-black">Email: {{ email }}</h2>
+        <a class="btn btn-success float-end mt-3 p-4 pt-4" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background: blue; color: white;">Edit</a>
+        <a class="btn btn-warning float-end mt-3 me-2 p-4 pt-4" data-bs-toggle="modal" data-bs-target="#changePasswordModal" style="background: green; color: white;">Change Password</a>
+      </form>
     </div>
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+      <!-- Add your photo here -->
+      <img src="../assets/images/friedlogo.jpg" alt="Profile Photo" class="img-fluid">
+      <!-- <i class="fas fa-user fa-5x"></i> -->
+    </div>
+  </div>
 </div>
-            </div>
 
-            </div>
+
 <!-- Edit Modal -->
 <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit User Profile</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form @submit.prevent="editDetails($event)">
-                    <div class="form-group">
-                        <label for="username" style="font-size: 20px;">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" v-model="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="fullname" style="font-size: 20px;">Full Name</label>
-                        <input type="text" class="form-control" id="fullname" name="fullname" v-model="fullname">
-                    </div>
-                    <div class="form-group">
-                        <label for="address" style="font-size: 20px;">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" v-model="address">
-                    </div>
-                    <div class="form-group">
-                        <label for="mobile" style="font-size: 20px;">Mobile</label>
-                        <input type="text" class="form-control" id="mobile" name="mobile" v-model="mobile">
-                    </div>
-                    <div class="form-group">
-                        <label for="email" style="font-size: 20px;">Email</label>
-                        <input type="text" class="form-control" id="email" name="email" v-model="email">
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="font-size:20px; background:green;">Save Changes</button>
-                </form>
-            </div>
-        </div>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Edit User Profile</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form @submit.prevent="editDetails($event)">
+          <div class="mb-4">
+            <label for="username" class="text-xl">Username</label>
+            <input type="text" class="form-control" id="username" name="username" v-model="username">
+          </div>
+          <div class="mb-4">
+            <label for="fullname" class="text-xl">Full Name</label>
+            <input type="text" class="form-control" id="fullname" name="fullname" v-model="fullname">
+          </div>
+          <div class="mb-4">
+            <label for="address" class="text-xl">Address</label>
+            <input type="text" class="form-control" id="address" name="address" v-model="address">
+          </div>
+          <div class="mb-4">
+            <label for="mobile" class="text-xl">Mobile</label>
+            <input type="text" class="form-control" id="mobile" name="mobile" v-model="mobile">
+          </div>
+          <div class="mb-4">
+            <label for="email" class="text-xl">Email</label>
+            <input type="text" class="form-control" id="email" name="email" v-model="email">
+          </div>
+          <button type="submit" class="btn btn-primary" style="font-size: 20px; background: green;">Save Changes</button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 
@@ -399,6 +400,7 @@ include './shared/loader.php';
                                     style="font-size:20px; font-family:emoji; background:skyblue;">Change Password</button>
                             </div>
                         </form>
+                        <p  class="error"id="message error"> {{error}} </p>
                     </div>
                 </div>
             </div>
@@ -430,7 +432,7 @@ include './shared/loader.php';
         formData.append('mobile', this.mobile);
         formData.append('email', this.email);
 
-        const response = await axios.post('../api/user-api.php', formData);
+        const response = await axios.post(`../api/user-api.php`, formData);
 
         if (response.data === 1) {
           alert('Your Personal Information Has Been Updated');
@@ -447,7 +449,7 @@ include './shared/loader.php';
   },
 });
 
-app.mount('#profile-app'); // Make sure to mount your Vue app to an element with id "app"
+app.mount('#edit-app'); // Make sure to mount your Vue app to an element with id "app"
 
       </script>
 <<script>

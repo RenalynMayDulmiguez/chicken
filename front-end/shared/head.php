@@ -67,6 +67,28 @@
     position: relative;
     display: flex;
   }
+  .about-photo {
+            width: 100%;
+            height: 400px; /* Set your desired height */
+            background-position: center;
+            background-size: cover;
+            animation: slide 8s infinite;
+        }
+
+        @keyframes slide {
+            0%, 100% {
+                transform: translateX(0%);
+            }
+            25% {
+                transform: translateX(-100%);
+            }
+            50% {
+                transform: translateX(-200%);
+            }
+            75% {
+                transform: translateX(-300%);
+            }
+        }
   </style>
 </head>
 

@@ -35,49 +35,46 @@
 
   <!-- Wishlist Section Start -->
   <section class="wishlist-section section-b-space">
-    <div class="container-fluid-lg">
-      <div class="row g-sm-3 g-2">
-        <div class="col-xxl-2 col-lg-3 col-md-4 col-6 product-box-contain">
-          <div v-for="product in products" class="product-box-3 h-100">
-            <div class="product-header">
-              <div class="product-image">
-                <a href="`product.php?product_id=${product.product_id}`">
-                  <img :src="`../uploads/products/${product.mainImage}`"
-                    class="img-fluid lazyload" alt="">
-                </a>
+  <div class="container-fluid-lg">
+    <div class="row g-sm-3 g-2">
+      <!-- Use a v-for loop to iterate over products -->
+      <div class="col-xxl-2 col-lg-3 col-md-4 col-6 product-box-contain" v-for="product in products" :key="product.product_id">
+        <div class="product-box-3 h-100">
+          <div class="product-header">
+            <div class="product-image">
+              <!-- Use proper binding for the product URL -->
+              <a :href="'product.php?product_id=' + product.product_id">
+                <img :src="'../uploads/products/' + product.mainImage" class="img-fluid lazyload" alt="">
+              </a>
 
-                <div class="product-header-top">
-                  <button class="btn wishlist-button close_button" @click="removeFavorite(product.id)">
-                    <i data-feather="x"></i>
-                  </button>
-                </div>
+              <div class="product-header-top">
+                <button class="btn wishlist-button close_button" @click="removeFavorite(product.id)">
+                  <i data-feather="x"></i>
+                </button>
               </div>
             </div>
-            <div class="product-footer">
-              <div class="product-detail">
-                <a>
-                  <h5 class="name">
-                    {{product.name}}
-                  </h5>
-                </a>
-                <h5 class="price">
-                  <span class="theme-color">
-                    {{product.price}}
-                  </span>
-                </h5>
+          </div>
+          <div class="product-footer">
+            <div class="product-detail">
+              <a>
+                <h5 class="name">{{ product.name }}</h5>
+              </a>
+              <h5 class="price">
+                <span class="theme-color">{{ product.price }}</span>
+              </h5>
 
-                <div class="add-to-cart-box bg-white mt-2">
-                  <button @click="addToCartFromFavorites(product)"
-                    class="btn btn-add-cart addcart-button">Add
-                  </button>
-                </div>
+              <div class="add-to-cart-box bg-white mt-2">
+                <!-- Define addToCartFromFavorites function in your Vue component -->
+                <button @click="addToCartFromFavorites(product)" class="btn btn-add-cart addcart-button">Add</button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
   <!-- Wishlist Section End -->
 
   <!-- Footer Section Start -->

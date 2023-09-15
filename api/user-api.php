@@ -146,9 +146,10 @@ function fnUpdate()
 
 function fnChangePassword() {
     global $con;
+
     // Retrieve the user ID from the session
-    $userid = $_SESSION['userId'];
-  
+    $id = $_SESSION['userId'];
+
     // Retrieve the current password and new password from the POST request
     $currentPassword = md5($_POST['currentPassword']);
     $newPassword = md5($_POST['newPassword']);
@@ -156,32 +157,33 @@ function fnChangePassword() {
 
     // Validate the new password and confirm password
     if ($newPassword !== $confirmPassword) {
-      echo 'passwordMismatch'; // New password and confirm password do not match
-      exit;
+        echo 'passwordMismatch';
+        exit;
     }
-  
+
     // Retrieve the current password from the database
     $query = $con->prepare('SELECT password FROM users WHERE id = ?');
-    $query->bind_param('i', $userid);
+    $query->bind_param('i', $id);
     $query->execute();
     $result = $query->get_result()->fetch_assoc();
-  
+
     // Compare the current password with the one retrieved from the database
     if (!$result || $currentPassword !== $result['password']) {
-      echo 'currentPasswordMismatch'; // Current password does not match
-      exit;
+        echo 'currentPasswordMismatch';
+        exit;
     }
-  
+
     // Update the password in the database
-    $query = $con->prepare('UPDATE tbl_users SET password = ? WHERE id = ?');
-    $query->bind_param('si', $newPassword, $userid);
-  
+    $query = $con->prepare('UPDATE users SET password = ? WHERE id = ?');
+    $query->bind_param('si', $newPassword, $id);
+
     if ($query->execute()) {
-      echo 'success'; // Password updated successfully
+        echo 'success';
     } else {
-      echo 'error'; // Error updating the password
+        echo 'error';
     }
 }
+
 function deleteUser() {
     global $con;
     $id = $_POST['userId'];

@@ -35,7 +35,7 @@ include './shared/head.php';
         <div class="col-xxl-6 col-lg-8 order-xxl-0 ratio_87">
           <div class="home-contain rounded">
             <div class="h-100">
-              <img src="../assets/chick-img/bg2.jpeg"
+              <img src="../assets/images/chickenback.jpg"
                 class="bg-img blur-up lazyload" alt="">
             </div>
             <div class="home-detail p-center-left home-p-sm">
@@ -156,6 +156,23 @@ include './shared/head.php';
 <?php include './shared/scripts.php'; ?>
 
 <script src="../src/product.js"></script>
+
+<script>
+        const images = document.querySelectorAll('.about-photo > div');
+        let currentImageIndex = 0;
+
+        function changeImage() {
+            images[currentImageIndex].classList.remove('opacity-100', 'scale-100');
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            images[currentImageIndex].classList.add('opacity-100', 'scale-100');
+            setTimeout(changeImage, 4000); // Change image every 4 seconds (adjust as needed)
+        }
+
+        // Initial setup
+        images[currentImageIndex].classList.add('opacity-100', 'scale-100');
+        setTimeout(changeImage, 4000); // Start the image transition
+
+    </script>
 
 </body>
 

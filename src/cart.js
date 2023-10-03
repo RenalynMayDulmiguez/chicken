@@ -14,7 +14,7 @@ createApp({
 
     getTotal() {
       const totalSum = this.carts.reduce((accumulator, cart) => accumulator + cart.total, 0);
-      const formattedTotal = (totalSum + 99.99).toFixed(2);
+      const formattedTotal = (totalSum + 35).toFixed(2);
       return parseFloat(formattedTotal);
     },
   },

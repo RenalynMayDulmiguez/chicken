@@ -2,10 +2,6 @@
 include './shared/head.php';
 ?>
 <div id="app">
-  <?php
-        include './shared/header.php';
-        include './shared/mobile-header.php';
-        ?>
 
   <!-- Breadcrumb Section Start -->
   <section class="breadscrumb-section pt-0">
@@ -121,7 +117,7 @@ include './shared/head.php';
 
                 <li class="align-items-start">
                   <h4>Shipping</h4>
-                  <h4 class="price text-end">₱99.99</h4>
+                  <h4 class="price text-end">₱35.00</h4>
                 </li>
               </ul>
             </div>
@@ -159,7 +155,6 @@ include './shared/head.php';
 </div>
 
 <?php 
-  include './shared/footer.php'; 
   include './shared/scripts.php'; ?>
 <script src="../src/cart.js"></script>
 </body>

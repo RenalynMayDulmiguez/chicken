@@ -32,7 +32,8 @@
     </div>
   </div>
 
-  <div class="top-nav top-header sticky-header">
+  <!-- sticky-header -->
+  <div class="top-nav top-header">
     <div class="container-fluid-lg">
       <div class="row">
         <div class="col-12">

@@ -1,7 +1,7 @@
 <!-- Footer Section Start -->
 <footer class="section-t-space">
   <div class="container-fluid-lg">
-    <div class="service-section">
+    <!-- <div class="service-section">
       <div class="row g-3">
         <div class="col-12">
           <div class="service-contain">
@@ -55,7 +55,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="main-footer section-b-space section-t-space">
       <div class="row g-md-4 g-3">

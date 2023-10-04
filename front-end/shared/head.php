@@ -46,7 +46,7 @@
 
   <!-- Iconly css -->
   <link rel="stylesheet" type="text/css" href="../assets/css/bulk-style.css">
-
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
   <!-- Template css -->
   <link id="color-link" rel="stylesheet" type="text/css"
     href="../assets/css/style.css">
@@ -89,12 +89,92 @@
                 transform: translateX(-300%);
             }
         }
+        
+        .swiper-container {
+            position: relative;
+        }
+
+        .swiper-slide {
+            position: relative;
+            text-align: center;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            right: 50%;
+            left: 50%;
+            width:50%;
+            height: 200%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3));
+            z-index: 1; /* Position the gradient layer above the image */
+            pointer-events: none; /* Allows interaction with the underlying image */
+        }
+        .swiper-slide img {
+            width: 50%;
+            height: 50%;
+            margin: 0 auto; 
+            display: block; 
+        }
+
+        .swiper-slide .image-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        
+            color: white;
+            padding: 10px;
+        }
+        /* CSS for the text elements */
+          .image-text p {
+          font-size: 35px;
+          font-weight: bold;
+          text-transform: uppercase;
+          font-family:  emoji;
+      }
+
+        /* CSS for the 'Order Now' button */
+        .image-text a.btn {
+            display: inline-block;
+            background: #FF4C4C; 
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            margin-top: 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .image-text a.btn:hover {
+            background: #FF3333; 
+        }
+        .swiper-pagination-custom {
+            text-align: center; 
+            margin-top: 10px; 
+        }
+
+        .swiper-pagination-custom .swiper-pagination-bullet {
+            background: transparent; 
+            width: 12px; 
+            height: 12px; 
+            margin: 0 5px; 
+        }
   </style>
 </head>
 
 <body class="theme-color-1">
   <?php 
-  session_start();
+  //  session_start();
 
 include './shared/loader.php';
 ?>

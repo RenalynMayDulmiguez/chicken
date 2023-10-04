@@ -1,4 +1,6 @@
-<?php include './shared/head.php'; ?>
+<?php 
+ session_start();
+include './shared/head.php'; ?>
 
 <div id="app">
 

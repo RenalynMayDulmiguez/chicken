@@ -1,4 +1,5 @@
 <?php 
+ session_start();
 include './shared/head.php'; 
 $con = new mysqli('localhost', 'root', '', 'chicken_db');
 

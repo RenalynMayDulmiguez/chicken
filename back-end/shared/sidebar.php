@@ -22,6 +22,14 @@
             <ul class="sidebar-links" id="simple-bar">
               <li class="back-btn"></li>
 
+
+              <li class="sidebar-list">
+                <a class="sidebar-link sidebar-title" href="dashboard.php">
+                  <i class="ri-user-3-line"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+
               <li class="sidebar-list">
                 <a class="linear-icon-link sidebar-link sidebar-title"
                   href="javascript:void(0)">

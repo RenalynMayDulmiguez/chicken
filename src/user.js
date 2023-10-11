@@ -30,7 +30,7 @@ createApp({
       axios.post(`../api/index.php`, data).then((r) => {
 
         if (r.data === 1) {
-          location.href = "../back-end/all-users.php";
+          location.href = "../back-end/dashboard.php";
         } else if(r.data === 0) {
           location.href = "index.php";
         } else if(r.data === 'locked') {

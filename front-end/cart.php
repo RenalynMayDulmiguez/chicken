@@ -1,5 +1,5 @@
-<?php 
- session_start();
+<?php
+session_start();
 include './shared/head.php';
 ?>
 <div id="app">
@@ -39,16 +39,14 @@ include './shared/head.php';
                   <tr v-for="cart in carts" class="product-box-contain">
                     <td class="product-detail">
                       <div class="product border-0">
-                        <a :href="`product.php?product_id=${cart.product_id}`"
-                          class="product-image">
-                          <img :src="`../uploads/products/${cart.mainImage}`"
-                            class="img-fluid lazyload" :alt="cart.mainImage">
+                        <a :href="`product.php?product_id=${cart.product_id}`" class="product-image">
+                          <img :src="`../uploads/products/${cart.mainImage}`" class="img-fluid lazyload" :alt="cart.mainImage">
                         </a>
                         <div class="product-detail">
                           <ul>
                             <li class="name">
                               <a :href="`product.php?product_id=${cart.product_id}`">
-                               {{ cart.name }}
+                                {{ cart.name }}
                               </a>
                             </li>
 
@@ -67,17 +65,11 @@ include './shared/head.php';
                       <div class="quantity-price">
                         <div class="cart_qty">
                           <div class="input-group">
-                            <button type="button" :disabled="cart.quantity <= 1"
-                              @click="updateQuantity('minus', cart.quantity, cart.id)"
-                              class="btn qty-left-minus" >
+                            <button type="button" :disabled="cart.quantity <= 1" @click="updateQuantity('minus', cart.quantity, cart.id)" class="btn qty-left-minus">
                               <i data-feather="minus" aria-hidden="true"></i>
                             </button>
-                            <input 
-                              class="form-control input-number qty-input"
-                              type="number" name="quantity" :value="cart.quantity" @change="updateQuantity('change', $event, cart.id)">
-                            <button type="button" 
-                             @click="updateQuantity('plus', cart.quantity, cart.id)"
-                              class="btn qty-right-plus">
+                            <input class="form-control input-number qty-input" type="number" name="quantity" :value="cart.quantity" @change="updateQuantity('change', $event, cart.id)">
+                            <button type="button" @click="updateQuantity('plus', cart.quantity, cart.id)" class="btn qty-right-plus">
                               <i data-feather="plus" aria-hidden="true"></i>
                             </button>
                           </div>
@@ -92,8 +84,7 @@ include './shared/head.php';
 
                     <td class="save-remove">
                       <h4 class="table-title text-content">Action</h4>
-                      <a class="remove close_button" @click="removeCart(cart.id)"
-                        href="javascript:void(0)">Remove</a>
+                      <a class="remove close_button" @click="removeCart(cart.id)" href="javascript:void(0)">Remove</a>
                     </td>
                   </tr>
 
@@ -133,14 +124,12 @@ include './shared/head.php';
             <div class="button-group cart-button">
               <ul>
                 <li>
-                  <button
-                    class="btn btn-animation proceed-btn fw-bold">Process To
+                  <button class="btn btn-animation proceed-btn fw-bold">Process To
                     Checkout</button>
                 </li>
 
                 <li>
-                  <button onclick="location.href = 'index.php';"
-                    class="btn btn-light shopping-button text-dark">
+                  <button onclick="location.href = 'index.php';" class="btn btn-light shopping-button text-dark">
                     <i class="fa-solid fa-arrow-left-long"></i>Return To
                     Shopping</button>
                 </li>
@@ -155,8 +144,8 @@ include './shared/head.php';
 
 </div>
 
-<?php 
-  include './shared/scripts.php'; ?>
+<?php
+include './shared/scripts.php'; ?>
 <script src="../src/cart.js"></script>
 </body>
 

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2023 at 07:18 AM
+-- Generation Time: Nov 10, 2023 at 04:26 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -101,10 +101,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `login` (IN `p_username` VARCHAR(255
 	
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `p_fullname` VARCHAR(255), IN `p_username` VARCHAR(255), IN `p_email` VARCHAR(255), IN `p_password` VARCHAR(255), IN `p_address` VARCHAR(255), IN `p_mobile` VARCHAR(255))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `p_fullname` VARCHAR(255), IN `p_username` VARCHAR(255), IN `p_email` VARCHAR(255), IN `p_password` VARCHAR(255), IN `p_address` VARCHAR(255), IN `p_mobile` VARCHAR(255), IN `p_qrcode` TEXT)   BEGIN
 	INSERT 
-    INTO users(fullname, username, email, password, address, mobile)
-    VALUES (p_fullname, p_username, p_email, p_password, p_address, p_mobile);
+    INTO users(fullname, username, email, password, address, mobile, myQrCode)
+    VALUES (p_fullname, p_username, p_email, p_password, p_address, p_mobile, p_qrcode);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `removeCart` (IN `p_id` INT)   BEGIN
@@ -210,6 +210,13 @@ CREATE TABLE `carts` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(71, 7678, 36, 1, '2023-11-05 07:46:06', '2023-11-05 07:46:06', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -223,6 +230,13 @@ CREATE TABLE `favorites` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `favorites`
+--
+
+INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
+(109, 7678, 36, '2023-11-05 07:46:00', '2023-11-05 07:46:00');
 
 -- --------------------------------------------------------
 
@@ -248,19 +262,47 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `user_id`, `name`, `description`, `quantity`, `price`, `images`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(22, 22, 'amaw', '22', 33, 22, '[\"product-amaw-68903.png\"]', '2023-06-29 05:14:46', '2023-06-29 05:14:46', '2023-06-29 05:16:46'),
-(23, 22, 'aw aw aw', '2', 2, 2, '[\"product-aw aw aw-82910.png\"]', '2023-06-29 05:15:27', '2023-06-29 05:15:27', '2023-06-29 05:16:43'),
-(24, 22, '2', '2', 2, 2, '[\"product-2-55933.png\"]', '2023-06-29 05:15:50', '2023-06-29 05:15:50', '2023-06-29 05:16:39'),
-(25, 22, '2', '2', 2, 2, '[\"product-2-66068.png\"]', '2023-06-29 05:15:59', '2023-06-29 05:15:59', '2023-06-29 05:16:36'),
-(26, 22, '4', '4', 4, 400, '[\"product-4-91539.png\"]', '2023-06-29 05:16:13', '2023-06-29 05:16:13', '2023-06-29 05:16:32'),
-(27, 22, 'aw aw aw', '5', 5, 500, '[\"product-aw aw aw-85194.png\"]', '2023-06-29 05:17:22', '2023-06-29 05:17:22', '2023-06-29 12:16:34'),
-(29, 22, 'admin', 'fdfd', 232, 400, '[\"product-admin-83938.jpeg\"]', '2023-06-29 11:50:44', '2023-06-29 11:50:44', '2023-06-29 12:16:38'),
-(30, 22, 'cake', 'cake', 232, 500, '[\"product-cake-85005.png\"]', '2023-06-29 12:24:34', '2023-06-29 12:24:34', '2023-06-30 02:02:15'),
-(31, 22, 'cheese', 'tam is', 3, 320, '[\"product-cheese-91244.jpeg\"]', '2023-06-29 13:13:26', '2023-06-29 13:13:26', '2023-06-30 02:02:09'),
-(32, 14, 'chicken', 'lami nga dli bidle', 500, 622, '[\"product-chicken-49338.png\"]', '2023-06-30 02:52:21', '2023-06-30 02:52:21', '2023-06-30 02:57:31'),
-(33, 14, 'gfgf', '232323', 235, 400, '[\"product-gfgf-10462.png\"]', '2023-06-30 02:59:05', '2023-06-30 02:59:05', '2023-06-30 02:59:10'),
-(34, 22, 'aw aw aw', '3232', 12, 323, '[\"product-aw aw aw-54795.png\"]', '2023-06-30 04:33:46', '2023-06-30 04:33:46', '2023-06-30 11:47:11'),
-(36, 22, 'fdfd fdfd fdfd', 'dfd', 678, 12, '[\"product-fdfd fdfd fdfd-48705.jpg\"]', '2023-06-30 11:47:59', '2023-07-01 04:43:30', NULL);
+(22, 3, 'amaw', '22', 33, 22, '[\"product-amaw-68903.png\"]', '2023-06-29 05:14:46', '2023-06-29 05:14:46', '2023-06-29 05:16:46'),
+(23, 3, 'aw aw aw', '2', 2, 2, '[\"product-aw aw aw-82910.png\"]', '2023-06-29 05:15:27', '2023-06-29 05:15:27', '2023-06-29 05:16:43'),
+(24, 3, '2', '2', 2, 2, '[\"product-2-55933.png\"]', '2023-06-29 05:15:50', '2023-06-29 05:15:50', '2023-06-29 05:16:39'),
+(25, 3, '2', '2', 2, 2, '[\"product-2-66068.png\"]', '2023-06-29 05:15:59', '2023-06-29 05:15:59', '2023-06-29 05:16:36'),
+(26, 3, '4', '4', 4, 400, '[\"product-4-91539.png\"]', '2023-06-29 05:16:13', '2023-06-29 05:16:13', '2023-06-29 05:16:32'),
+(27, 3, 'aw aw aw', '5', 5, 500, '[\"product-aw aw aw-85194.png\"]', '2023-06-29 05:17:22', '2023-06-29 05:17:22', '2023-06-29 12:16:34'),
+(29, 3, 'admin', 'fdfd', 232, 400, '[\"product-admin-83938.jpeg\"]', '2023-06-29 11:50:44', '2023-06-29 11:50:44', '2023-06-29 12:16:38'),
+(30, 3, 'cake', 'cake', 232, 500, '[\"product-cake-85005.png\"]', '2023-06-29 12:24:34', '2023-06-29 12:24:34', '2023-06-30 02:02:15'),
+(31, 3, 'cheese', 'tam is', 3, 320, '[\"product-cheese-91244.jpeg\"]', '2023-06-29 13:13:26', '2023-06-29 13:13:26', '2023-06-30 02:02:09'),
+(32, 3, 'chicken', 'lami nga dli bidle', 500, 622, '[\"product-chicken-49338.png\"]', '2023-06-30 02:52:21', '2023-06-30 02:52:21', '2023-06-30 02:57:31'),
+(33, 3, 'gfgf', '232323', 235, 400, '[\"product-gfgf-10462.png\"]', '2023-06-30 02:59:05', '2023-06-30 02:59:05', '2023-06-30 02:59:10'),
+(34, 3, 'aw aw aw', '3232', 12, 323, '[\"product-aw aw aw-54795.png\"]', '2023-06-30 04:33:46', '2023-06-30 04:33:46', '2023-06-30 11:47:11'),
+(36, 3, 'fdfd fdfd fdfd', 'dfd', 678, 12, '[\"product-fdfd fdfd fdfd-48705.jpg\"]', '2023-06-30 11:47:59', '2023-07-01 04:43:30', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
+--
+
+CREATE TABLE `transaction` (
+  `trans_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `transaction_amount` int(11) NOT NULL,
+  `paymentMethod` varchar(125) NOT NULL,
+  `proofOfQRcode` text NOT NULL,
+  `deliver_status` int(11) NOT NULL DEFAULT 0 COMMENT '0 if not yet delivered, 1 if delivered',
+  `created_date` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`trans_id`, `product_id`, `seller_id`, `buyer_id`, `transaction_amount`, `paymentMethod`, `proofOfQRcode`, `deliver_status`, `created_date`) VALUES
+(55, 0, 0, 0, 123, '', '', 1, '2023-11-09 23:58:46'),
+(56, 0, 0, 0, 125, '', '', 1, '2023-11-09 23:58:46'),
+(57, 123, 123, 123, 123, '123', '123', 0, '2023-11-09 23:59:16'),
+(58, 123, 123, 123, 123, '123', '123', 0, '2023-11-09 23:59:16');
 
 -- --------------------------------------------------------
 
@@ -281,6 +323,7 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL DEFAULT 0,
   `counterlock` int(11) NOT NULL DEFAULT 0,
+  `myQrCode` text NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -288,26 +331,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `username`, `password`, `email`, `address`, `mobile`, `role`, `created_at`, `updated_at`, `status`, `counterlock`, `deleted_at`) VALUES
-(3, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@yahoo.com', 'admin', '2323232', 1, '2023-05-25 06:38:22', '2023-05-25 06:38:22', 0, 0, '2023-07-01 04:41:40'),
-(4, 'yyyyyy', 'dsdsdsd', '5f4dcc3b5aa765d61d8327deb882cf99', 'asdasdsa@gmail.com', 'dsds', '333', 0, '2023-05-25 07:13:05', '2023-05-25 07:13:05', 0, 0, '2023-07-01 05:12:24'),
-(5, 'sample user', 'sample', '5f4dcc3b5aa765d61d8327deb882cf99', 'sample2@yahoo.com', 'dsds', '232323', 0, '2023-05-25 07:14:05', '2023-05-25 07:14:05', 0, 0, NULL),
-(6, 'dsdsd', 'dsdsds', '1a1dc91c907325c69271ddf0c944bc72', 'dsdsdsd@gmail.com', 'pass', '232', 0, '2023-05-25 07:20:26', '2023-05-25 07:20:26', 0, 0, NULL),
-(7, 'gwapo123', 'gf', 'e5bb23797bfea314a3db43d07dbd6a74', 'gwapoko123@gmail.com', 'gf', '09226656', 0, '2023-06-27 21:42:25', '2023-06-30 23:11:56', 0, 1, NULL),
-(8, 'gf', 'pota', '8163680b8578a9dadaad55d668037b2f', 'sada@gmail.com', 'gf', '922266', 0, '2023-06-27 22:32:29', '2023-06-27 22:32:29', 0, 0, NULL),
-(9, 'amaw', 'test', '098f6bcd4621d373cade4e832627b4f6', 'bitaylovephanie@gmail.com', 'amaw', '1023214123', 0, '2023-06-28 01:12:54', '2023-06-28 01:12:54', 0, 0, NULL),
-(10, 'task', 'task', '478f3a4c51824ad23cb50c1c60670c0f', 'test@gmail.com', 'fd', '92265656', 0, '2023-06-28 05:04:13', '2023-06-28 05:04:13', 0, 1, NULL),
-(11, 'giatay', 'ere', '2bbf803161deb1186defbefb8b4b0903', 'amawka@gmail.com', 'admin', '09222222222', 0, '2023-06-28 20:26:16', '2023-06-30 23:10:37', 0, 0, NULL),
-(14, 'admin', 'admins', '21232f297a57a5a743894a0e4a801fc3', 'admin@yahoo.com', 'admin', '2323232', 0, '2023-05-25 14:38:22', '2023-05-25 14:38:22', 0, 0, NULL),
-(18, 'dsdsd', 'dsdsds', '1a1dc91c907325c69271ddf0c944bc72', 'dsdsdsd@gmail.com', 'pass', '232', 0, '2023-05-25 07:20:26', '2023-05-25 07:20:26', 0, 0, '2023-07-01 02:32:22'),
-(22, 'task', 'task', '478f3a4c51824ad23cb50c1c60670c0f', 'test@gmail.com', 'fd', '92265656', 0, '2023-06-28 13:04:13', '2023-06-28 13:04:13', 0, 1, NULL),
-(45, 'dsdsds', 'dsdsdsd', '5f4dcc3b5aa765d61d8327deb882cf99', 'dsdsdsdsds@yahoo.com', 'dsds', '232323', 0, '2023-05-25 07:13:05', '2023-05-25 07:13:05', 0, 0, '2023-07-01 04:27:06'),
-(46, 'sample user', 'sample', '5f4dcc3b5aa765d61d8327deb882cf99', 'sample@yahoo.com', 'dsds', '232323', 0, '2023-05-25 07:14:05', '2023-05-25 07:14:05', 0, 0, '2023-07-01 04:13:43'),
-(78, 'dsdsd', 'dsdsds', '1a1dc91c907325c69271ddf0c944bc72', 'dsdsdsd@gmail.com', 'pass', '232', 0, '2023-05-25 07:20:26', '2023-05-25 07:20:26', 0, 0, '2023-07-01 03:54:16'),
-(87, 'gf', 'gf', 'e5bb23797bfea314a3db43d07dbd6a74', 'sada@gmail.com', 'gf', '922266', 0, '2023-06-27 21:42:25', '2023-06-27 21:42:25', 0, 1, '2023-07-01 02:32:35'),
-(728, 'gf', 'pota', '8163680b8578a9dadaad55d668037b2f', 'sada@gmail.com', 'gf', '922266', 0, '2023-06-27 22:32:29', '2023-06-27 22:32:29', 0, 0, '2023-07-01 02:24:44'),
-(988, 'amaw', 'test', '098f6bcd4621d373cade4e832627b4f6', 'fgfgfgfgf@gmail.com', 'amaw', '1023214123', 0, '2023-06-28 01:12:54', '2023-06-28 01:12:54', 0, 0, '2023-07-01 02:09:27'),
-(7676, 'admin', 'ere', '2bbf803161deb1186defbefb8b4b0903', 'admin@gmail.com', 'admin', '09222222222', 0, '2023-06-28 20:26:16', '2023-06-28 20:26:16', 0, 0, '2023-07-01 02:09:17');
+INSERT INTO `users` (`id`, `fullname`, `username`, `password`, `email`, `address`, `mobile`, `role`, `created_at`, `updated_at`, `status`, `counterlock`, `myQrCode`, `deleted_at`) VALUES
+(3, 'admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'admin', '2323232', 1, '2023-05-25 06:38:22', '2023-05-25 06:38:22', 0, 0, '[\"product-aw aw aw-54795.png\"]', NULL),
+(7678, '123', '123', '4297f44b13955235245b2497399d7a93', '123@123', '123123', '123123123', 0, '2023-11-05 07:39:56', '2023-11-05 07:39:56', 0, 3, '../uploads/products/image-removebg-preview.png', NULL),
+(7679, '123', '123', '202cb962ac59075b964b07152d234b70', '123@123', '123', '123', 0, '2023-11-05 07:42:11', '2023-11-05 07:42:11', 0, 0, '../uploads/products/image-removebg-preview.png', NULL),
+(7680, '123123', '123123', '4297f44b13955235245b2497399d7a93', '123123@12312', '123', '123123', 0, '2023-11-05 09:09:17', '2023-11-05 09:09:17', 0, 0, '../uploads/products/image-removebg-preview (2).png', NULL);
 
 --
 -- Indexes for dumped tables
@@ -337,6 +365,12 @@ ALTER TABLE `products`
   ADD KEY `products_user_id` (`user_id`);
 
 --
+-- Indexes for table `transaction`
+--
+ALTER TABLE `transaction`
+  ADD PRIMARY KEY (`trans_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -350,13 +384,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -365,10 +399,16 @@ ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
+-- AUTO_INCREMENT for table `transaction`
+--
+ALTER TABLE `transaction`
+  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7677;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7681;
 
 --
 -- Constraints for dumped tables

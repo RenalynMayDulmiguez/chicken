@@ -10,14 +10,13 @@ function updateCounterlock()
     $query = $con->prepare($sql);
     $query->bind_param('ii', $user_id, $counterlock);
     $query->execute();
-    if($query->affected_rows >= 1) {
+    if ($query->affected_rows >= 1) {
         echo 1;
     } else {
         echo 0;
     }
 
     $query->close();
-    
 }
 
 function displayAllUser()
@@ -65,21 +64,22 @@ function login()
     $query->execute();
     $user = $query->get_result()->fetch_assoc();
     $query->close();
-    // echo json_encode($user);
-    if($user['counterlock'] >= 3){
-        echo 'locked';
-        exit();
-    }
+
     if ($user != null) {
+        if ($user['counterlock'] >= 3) {
+            echo 'locked';
+            exit();
+        }
         if ($password == $user['password']) {
             $_SESSION['user'] = $user;
             $_SESSION['id'] = $user['id'];
+            $_SESSION['role'] = $user['role'];
             echo $user['role'];
         } else {
             $counterlock = (int)$user['counterlock'] + 1;
             $user_id = (int)$user['id'];
             $query2 = $con->prepare("UPDATE users SET counterlock = ? WHERE id = ?");
-            $query2->bind_param('ii', $counterlock, $user_id );
+            $query2->bind_param('ii', $counterlock, $user_id);
             $query2->execute();
             $query2->close();
         }
@@ -98,10 +98,21 @@ function register()
     $address = $_POST['address'];
     $mobile = $_POST['mobile'];
 
+    $file = $_FILES['qrcode'];
+    $fileName = $file['name'];
+    $fileTmpName = $file['tmp_name'];
 
-    $sql = 'CALL register(?,?,?,?,?,?)';
+    $upload_path = '';
+    if (move_uploaded_file($fileTmpName, '../uploads/products/' . $fileName)) {
+        $upload_dir = '../uploads/products/';
+        $upload_path = $upload_dir . $fileName;
+    } else {
+        echo "File upload failed.";
+    }
+
+    $sql = 'CALL register(?,?,?,?,?,?,?)';
     $query = $con->prepare($sql);
-    $query->bind_param('ssssss', $fullname, $username, $email, $password, $address, $mobile);
+    $query->bind_param('sssssss', $fullname, $username, $email, $password, $address, $mobile, $upload_path);
     $query->execute();
     if ($query->affected_rows >= 1) {
         login();
@@ -144,7 +155,8 @@ function fnUpdate()
 }
 
 
-function fnChangePassword() {
+function fnChangePassword()
+{
     global $con;
 
     // Retrieve the user ID from the session
@@ -184,7 +196,8 @@ function fnChangePassword() {
     }
 }
 
-function deleteUser() {
+function deleteUser()
+{
     global $con;
     $id = $_POST['userId'];
     $query = $con->prepare('UPDATE users SET deleted_at = NOW() WHERE id = ?');

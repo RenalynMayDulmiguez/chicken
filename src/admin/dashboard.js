@@ -13,6 +13,9 @@ createApp({
       editEmail: '',
       editQuantity: 0,
       editPrice: 0,
+      paid: 0,
+      notpaid: 0,
+      delivercount: 0,
     };
   },
 
@@ -33,46 +36,49 @@ createApp({
     this.displayProducts();
     this.displayCarts();
     this.displayAllUser();
+    this.adminDashboardViewPaidFunction();
+    this.adminDashboardNoPaidPaidFunction();
+    this.adminDashboardDeliveredPaidFunction();
   },
 
   methods: {
     displayAllUser() {
-        const data = new FormData();
-        data.append('method', 'displayAllUser');
-        axios.post(`../api/index.php`, data).then((r) => {
-            this.users = r.data;
-            console.log(r.data);
-        })
+      const data = new FormData();
+      data.append('method', 'displayAllUser');
+      axios.post(`../api/index.php`, data).then((r) => {
+        this.users = r.data;
+        console.log(r.data);
+      })
     },
     deleteUser(userId) {
-        const data = new FormData();
-        data.append("method", "deleteUser");
-        data.append("userId", userId);
-        
-        axios.post("../api/index.php", data)
-          .then((res) => {
-            if (res.data === 1) {
-              this.displayAllUser();
-            } else {
-              console.log(res.data);
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      },
-      deleteChanges() {
-        window.location.reload();
-      },
-      editUser(user) {
-        this.editUserId = user.id;
-        this.editFullname = user.fullname;
-        this.editMobile = user.mobile;
-        this.editEmail = user.email;
-        
-        var modal = document.getElementById('editUser');
-        var modalInstance = new bootstrap.Modal(modal);
-        modalInstance.show();
+      const data = new FormData();
+      data.append("method", "deleteUser");
+      data.append("userId", userId);
+
+      axios.post("../api/index.php", data)
+        .then((res) => {
+          if (res.data === 1) {
+            this.displayAllUser();
+          } else {
+            console.log(res.data);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    deleteChanges() {
+      window.location.reload();
+    },
+    editUser(user) {
+      this.editUserId = user.id;
+      this.editFullname = user.fullname;
+      this.editMobile = user.mobile;
+      this.editEmail = user.email;
+
+      var modal = document.getElementById('editUser');
+      var modalInstance = new bootstrap.Modal(modal);
+      modalInstance.show();
     },
     saveUserChanges() {
       const data = new FormData();
@@ -81,7 +87,7 @@ createApp({
       data.append('fullname', this.editFullname);
       data.append('mobile', this.editMobile);
       data.append('email', this.editEmail);
-      
+
       axios.post('../api/index.php', data)
         .then((response) => {
           if (response.data === 1) {
@@ -100,18 +106,18 @@ createApp({
     SaveChanges() {
       window.location.reload();
     },
-    
+
     updateCounterlock(userId, counterlock) {
-        if(confirm('Are you sure you want to proceed with this action?')) {
-            const data = new FormData();
-            data.append('userId', userId);
-            data.append('counterlock', counterlock);
-            data.append('method', 'updateCounterlock');
-            axios.post(`../api/index.php`, data).then((r) => {
-                this.displayAllUser();
-            })
-        }
-      },
+      if (confirm('Are you sure you want to proceed with this action?')) {
+        const data = new FormData();
+        data.append('userId', userId);
+        data.append('counterlock', counterlock);
+        data.append('method', 'updateCounterlock');
+        axios.post(`../api/index.php`, data).then((r) => {
+          this.displayAllUser();
+        })
+      }
+    },
     removeCart(id) {
       if (confirm("Are you sure you want to remove this?")) {
         const data = new FormData();
@@ -190,34 +196,61 @@ createApp({
         }
       });
     },
-editProduct(product) {
-  this.product = product;
-  this.editQuantity = product.quantity;
-  this.editPrice = product.price;
-  var modal = document.getElementById("editProduct");
-  var modalInstance = new bootstrap.Modal(modal);
-  modalInstance.show();
-},
-saveChanges() {
-  const data = new FormData();
-  data.append("method", "editProduct");
-  data.append("id", this.product.id);
-  data.append("quantity", this.editQuantity);
-  data.append("price", this.editPrice);
-  axios.post("../api/index.php", data).then((res) => {
-    if (res.data == 1) {
-      alert("Changes have been saved!");
-      this.displayProducts();
-      var modal = document.getElementById("editProductConfirmation");
+    editProduct(product) {
+      this.product = product;
+      this.editQuantity = product.quantity;
+      this.editPrice = product.price;
+      var modal = document.getElementById("editProduct");
       var modalInstance = new bootstrap.Modal(modal);
       modalInstance.show();
-    } else {
-      console.log(res.data);
-      alert("Something went wrong. Please try again later!");
-    }
-  });
-  // Refresh the page
-  window.location.reload();
-},
+    },
+    saveChanges() {
+      const data = new FormData();
+      data.append("method", "editProduct");
+      data.append("id", this.product.id);
+      data.append("quantity", this.editQuantity);
+      data.append("price", this.editPrice);
+      axios.post("../api/index.php", data).then((res) => {
+        if (res.data == 1) {
+          alert("Changes have been saved!");
+          this.displayProducts();
+          var modal = document.getElementById("editProductConfirmation");
+          var modalInstance = new bootstrap.Modal(modal);
+          modalInstance.show();
+        } else {
+          console.log(res.data);
+          alert("Something went wrong. Please try again later!");
+        }
+      });
+      // Refresh the page
+      window.location.reload();
+    },
+    adminDashboardViewPaidFunction() {
+      const data = new FormData();
+      data.append("method", "adminDashboardViewPaidFunction");
+      axios.post("../api/index.php", data).then((res) => {
+        for (var v of res.data) {
+          this.paid = v.paid;
+        }
+      });
+    },
+    adminDashboardNoPaidPaidFunction() {
+      const data = new FormData();
+      data.append("method", "adminDashboardNoPaidPaidFunction");
+      axios.post("../api/index.php", data).then((res) => {
+        for (var v of res.data) {
+          this.notpaid = v.notPaid;
+        }
+      });
+    },
+    adminDashboardDeliveredPaidFunction() {
+      const data = new FormData();
+      data.append("method", "adminDashboardDeliveredPaidFunction");
+      axios.post("../api/index.php", data).then((res) => {
+        for (var v of res.data) {
+          this.delivercount = v.deliveryStatus;
+        }
+      });
+    },
   },
 }).mount("#pageWrapper");

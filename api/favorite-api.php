@@ -1,10 +1,10 @@
 <?php
 
-function displayFavorites()
+function displayMyProductFavorites()
 {
     global $con;
-    $user_id = $_SESSION['id'];
-    $sql = 'CALL displayFavorites(?)';
+    $user_id = $_POST['user_id'];
+    $sql = "SELECT p.*, f.id as fid FROM favorites AS f INNER JOIN products as p ON f.product_id = p.id WHERE f.user_id = ?";
     $query = $con->prepare($sql);
     $query->bind_param('i', $user_id);
     $query->execute();
@@ -18,23 +18,26 @@ function displayFavorites()
     }
 
     echo json_encode($data);
-    // echo 1;
+
     $query->close();
 }
 
-function addToCartFromFavorites()
+function addToMyFavorite()
 {
     global $con;
-    $user_id = $_SESSION['id'];
-    $product = json_decode($_POST['product']);
+    $user_id = $_POST['user_id'];
+    $product = $_POST['product'];
 
 
-    $sql = 'CALL addToCartFromFavorites(?,?,?)';
+    $sql = "INSERT INTO `favorites`(`user_id`, `product_id`) VALUES (?,?)";
     $query = $con->prepare($sql);
-    $query->bind_param('iii', $user_id, $product->id, $product->product_id);
+    $query->bind_param('ii', $user_id, $product);
     $query->execute();
+
     if ($query->affected_rows >= 1) {
-        echo 1;
+        echo 200;
+    }else{
+        echo 401;
     }
 }
 
@@ -44,6 +47,7 @@ function removeFavorite() {
     $query = $con->prepare('DELETE FROM favorites WHERE id = ?');
     $query->bind_param('i', $_POST['id']);
     $query->execute();
+
     if($query->affected_rows >= 1) {
         echo 1;
     } else {

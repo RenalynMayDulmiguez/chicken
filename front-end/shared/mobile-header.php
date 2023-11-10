@@ -1,4 +1,3 @@
- <!-- mobile fix menu start -->
  <div class="mobile-menu d-md-none d-block mobile-cart">
    <ul>
      <li class="active">

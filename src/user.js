@@ -11,7 +11,6 @@ createApp({
     };
   },
   created() {
-    // this.displayUser();
     console.log("created");
   },
   methods: {
@@ -24,33 +23,28 @@ createApp({
     },
     login(e) {
       e.preventDefault();
-      const b =this
+      const b = this
       const data = new FormData(e.currentTarget);
       data.append("method", "login");
       axios.post(`../api/index.php`, data).then((r) => {
-
-        if (r.data === 1) {
+        if (r.data == 1) {
           location.href = "../back-end/dashboard.php";
-        } else if(r.data === 0) {
+        } else if (r.data == 0) {
           location.href = "index.php";
-        } else if(r.data === 'locked') {
+        } else if (r.data == 'locked') {
           alert('account is locked');
-        }
-        else {
-          //alert("Unauthenticated");
-          b.error="Unauthenticated"
         }
       });
     },
     changePassword(e) {
       e.preventDefault();
       const form = e.target;
-    
+
       if (this.newPassword !== this.confirmPassword) {
         this.error = "New password and confirmation password do not match.";
         return;
       }
-    
+
       const formData = new FormData(e.currentTarget);
       formData.append('method', 'fnChangePassword');
       console.log(formData);
@@ -83,7 +77,7 @@ createApp({
 
     register(e) {
       e.preventDefault();
-      if(e.target.password.value != e.target.confirm_password.value) {
+      if (e.target.password.value != e.target.confirm_password.value) {
         alert('Passwords do not match');
         return false;
       }
@@ -92,9 +86,6 @@ createApp({
       axios.post(`../api/index.php`, data).then((r) => {
         if (r.data == 0) {
           location.href = "index.php";
-        } else {
-          console.log(r.data);
-          alert("Error: Data not saved");
         }
       });
     },

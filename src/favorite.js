@@ -3,20 +3,16 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-    // favorite:[],
-    // isFavoritesPage: false,
       products: [],
+      favoritesLength: 0,
+      favoriteDatas: [],
       carts: [],
     };
   },
   created() {
-    this.displayFavorites();
     this.displayCarts();
-    // if (window.location.pathname === '/favorites.php') {
-    //   this.isFavoritesPage = true;
-    // }
+    this.displayMyFavorite();
   },
-
   computed: {
     getTotal() {
       if (this.carts.length > 0) {
@@ -29,22 +25,19 @@ createApp({
       }
     },
   },
-
   methods: {
-
     removeFavorite(id) {
       const data = new FormData();
-      data.append('id', id);
       data.append('method', 'removeFavorite');
+      data.append('id', id);
       axios.post('../api/index.php', data).then((res) => {
         console.log(res.data)
-        if(res.data == 1) {
+        if (res.data == 1) {
           alert("Removed successfully!");
-          this.displayFavorites();
+          this.displayMyFavorite();
         }
       })
     },
-
     removeCart(id) {
       if (confirm("Are you want to remove this?")) {
         const data = new FormData();
@@ -55,7 +48,6 @@ createApp({
           if (res.data == 1) {
             alert("Removed Successfully!");
             this.displayCarts();
-            this.displayFavorites()
           } else {
             console.log(res.data);
             alert("Something went wrong please try again later!");
@@ -63,7 +55,6 @@ createApp({
         });
       }
     },
-
     displayCarts() {
       const data = new FormData();
       data.append("method", "displayCarts");
@@ -72,25 +63,38 @@ createApp({
         this.carts = res.data;
       });
     },
-
-    displayFavorites() {
+    addToMyFavorite(id) {
       const data = new FormData();
-      data.append("method", "displayFavorites");
+      data.append("method", "addToMyFavorite");
+      data.append("product", id);
       axios.post("../api/index.php", data).then((res) => {
-        console.log(res.data);
-        this.products = res.data;
+        if (res.data == 200) {
+          alert("Add to favorites!");
+          this.displayMyFavorite();
+        } else {
+          alert(res.data);
+        }
       });
     },
-    addToCartFromFavorites(id) {
+    addToMyFavorite(id) {
       const data = new FormData();
-      const product = JSON.stringify(id);
-      data.append("product", product);
-      data.append("method", "addToCartFromFavorites");
+      data.append("method", "addToMyFavorite");
+      data.append("product", id);
       axios.post("../api/index.php", data).then((res) => {
-        console.log(res.data)
-        alert('Added successfully!');
-        this.displayFavorites();
-        this.displayCarts();
+        if (res.data == 200) {
+          alert("Add to favorites!");
+          this.displayMyFavorite();
+        } else {
+          alert(res.data);
+        }
+      });
+    },
+    displayMyFavorite() {
+      const data = new FormData();
+      data.append("method", "displayMyProductFavorites");
+      axios.post("../api/index.php", data).then((res) => {
+        this.favoriteDatas = res.data;
+        this.favoritesLength = res.data.length;
       });
     },
   },

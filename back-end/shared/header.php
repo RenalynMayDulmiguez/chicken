@@ -1,10 +1,3 @@
-<?php 
-  session_start();
-
-  if(!isset($_SESSION['id']) || $_SESSION['user']['role'] == 0) {
-    header('location: ../front-end/index.php');
-  }
-  ?>
 <div class="page-header">
   <div class="header-wrapper m-0">
     <div class="header-logo-wrapper p-0">
@@ -30,21 +23,20 @@
           </span>
         </li>
 
-        <!-- <li class="profile-nav onhover-dropdown pe-0 me-0">
+        <li class="profile-nav onhover-dropdown pe-0 me-0">
           <div class="media profile-media">
             <div class="user-name-hide media-body">
               <span>
-                <?= 
-                $_SESSION['user']['fullname']; 
+                <?php
+                echo $_SESSION['user']['fullname'];
                 ?>
               </span>
               <p class="mb-0 font-roboto">
-                <?php 
-                if($_SESSION['user']['role'] == 1)
-                {
+                <?php
+                if (['role'] == 1) {
                   echo 'Admin';
-                } 
-         
+                }
+
                 ?>
                 <i class="middle ri-arrow-down-s-line"></i>
               </p>
@@ -59,7 +51,7 @@
             </li>
           </ul>
         </li>
-      </ul> -->
+      </ul>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <?php 
- session_start();
+session_start();
 include './shared/head.php'; ?>
 
 <div id="app">
@@ -40,7 +40,7 @@ include './shared/head.php'; ?>
   <div class="container-fluid-lg">
     <div class="row g-sm-3 g-2">
       <!-- Use a v-for loop to iterate over products -->
-      <div class="col-xxl-2 col-lg-3 col-md-4 col-6 product-box-contain" v-for="product in products" :key="product.product_id">
+      <div class="col-xxl-2 col-lg-3 col-md-4 col-6 product-box-contain" v-for="product in favoriteDatas" :key="product.product_id">
         <div class="product-box-3 h-100">
           <div class="product-header">
             <div class="product-image">
@@ -48,9 +48,8 @@ include './shared/head.php'; ?>
               <a :href="'product.php?product_id=' + product.product_id">
                 <img :src="'../uploads/products/' + product.mainImage" class="img-fluid lazyload" alt="">
               </a>
-
               <div class="product-header-top">
-                <button class="btn wishlist-button close_button" @click="removeFavorite(product.id)">
+                <button class="btn wishlist-button close_button" @click="removeFavorite(product.fid)">
                   <i data-feather="x"></i>
                 </button>
               </div>

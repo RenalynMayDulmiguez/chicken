@@ -37,14 +37,10 @@
         </div>
     </div>
 
-
-
-
     <?php include './shared/scripts.php'; ?>
     <script src="../src/user.js"></script>
 
     <script>
-        // JavaScript to add 'has-content' class to form fields with content
         const formFields = document.querySelectorAll('input[type="email"], input[type="password"]');
 
         formFields.forEach((field) => {

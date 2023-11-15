@@ -6,12 +6,16 @@ createApp({
       products: [],
       product: {},
       carts: [],
+      transactions: [],
       favoriteDatas: [],
       favoritesLength: 0,
       editQuantity: 0,
       editPrice: 0,
       currentPassword: '',
       newPassword: '',
+      selectedTransId: 0,
+      selectedTransStatus: 0,
+      TransStatus: 'selected',
       confirmPassword: ''
     };
   },
@@ -32,6 +36,7 @@ createApp({
   created() {
     this.displayProducts();
     this.displayCarts();
+    this.displayTransaction();
     this.displayMyFavorite();
   },
 
@@ -136,6 +141,35 @@ createApp({
       data.append("method", "displayProducts");
       axios.post("../api/index.php", data).then((res) => {
         this.products = res.data;
+      });
+    },
+    displayTransaction() {
+      const data = new FormData();
+      data.append("method", "displayTransaction");
+      axios.post("../api/index.php", data).then((res) => {
+        this.transactions = res.data;
+      });
+    },
+    selectTrans(tid) {
+      const data = new FormData();
+      data.append("method", "displayTransaction");
+      axios.post("../api/index.php", data).then((res) => {
+        for(var v of res.data){
+          if(v.trans_id == tid){
+            this.selectedTransId = v.trans_id;
+            this.selectedTransStatus = v.status;
+          }
+        }
+      });
+    },
+    updateStatusTransaction() {
+      const data = new FormData();
+      data.append("method", "updateStatusTransaction");
+      data.append("ID", this.selectedTransId );
+      data.append("status", this.TransStatus);
+      axios.post("../api/index.php", data).then((res) => {
+        alert(res.data);
+        this.displayTransaction();
       });
     },
     addToMyFavorite(id) {

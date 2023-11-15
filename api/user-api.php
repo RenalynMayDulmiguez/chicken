@@ -35,8 +35,6 @@ function displayAllUser()
 }
 
 
-
-
 function displayUser()
 {
     global $con;
@@ -51,80 +49,11 @@ function displayUser()
     $query->close();
 }
 
-function login()
-{
-
-    global $con;
-    $username = strtolower($_POST['username']);
-    $password = md5($_POST['password']);
-
-    $sql = 'CALL login(?)';
-    $query = $con->prepare($sql);
-    $query->bind_param('s', $username);
-    $query->execute();
-    $user = $query->get_result()->fetch_assoc();
-    $query->close();
-
-    if ($user != null) {
-        if ($user['counterlock'] >= 3) {
-            echo 'locked';
-            exit();
-        }
-        if ($password == $user['password']) {
-            $_SESSION['user'] = $user;
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['role'] = $user['role'];
-            echo $user['role'];
-        } else {
-            $counterlock = (int)$user['counterlock'] + 1;
-            $user_id = (int)$user['id'];
-            $query2 = $con->prepare("UPDATE users SET counterlock = ? WHERE id = ?");
-            $query2->bind_param('ii', $counterlock, $user_id);
-            $query2->execute();
-            $query2->close();
-        }
-    }
-}
-
-function register()
-{
-
-    global $con;
-
-    $fullname = $_POST['fullname'];
-    $username = strtolower($_POST['username']);
-    $password = md5($_POST['password']);
-    $email = strtolower($_POST['email']);
-    $address = $_POST['address'];
-    $mobile = $_POST['mobile'];
-
-    $file = $_FILES['qrcode'];
-    $fileName = $file['name'];
-    $fileTmpName = $file['tmp_name'];
-
-    $upload_path = '';
-    if (move_uploaded_file($fileTmpName, '../uploads/products/' . $fileName)) {
-        $upload_dir = '../uploads/products/';
-        $upload_path = $upload_dir . $fileName;
-    } else {
-        echo "File upload failed.";
-    }
-
-    $sql = 'CALL register(?,?,?,?,?,?,?)';
-    $query = $con->prepare($sql);
-    $query->bind_param('sssssss', $fullname, $username, $email, $password, $address, $mobile, $upload_path);
-    $query->execute();
-    if ($query->affected_rows >= 1) {
-        login();
-    } else {
-        echo 0;
-    }
-}
 
 function fnUpdate()
 {
     global $con;
-    $id = $_SESSION['userId'];
+    $id = $_SESSION['id'];
     $username = strtolower($_POST['username']);
     $fullname = $_POST['fullname'];
     $address = $_POST['address'];
@@ -160,7 +89,7 @@ function fnChangePassword()
     global $con;
 
     // Retrieve the user ID from the session
-    $id = $_SESSION['userId'];
+    $id = $_SESSION['id'];
 
     // Retrieve the current password and new password from the POST request
     $currentPassword = md5($_POST['currentPassword']);

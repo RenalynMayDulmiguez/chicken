@@ -26,13 +26,16 @@ createApp({
       const b = this
       const data = new FormData(e.currentTarget);
       data.append("method", "login");
-      axios.post(`../api/index.php`, data).then((r) => {
+      axios.post(`../api/auth.php`, data).then((r) => {
         if (r.data == 1) {
           location.href = "../back-end/dashboard.php";
         } else if (r.data == 0) {
           location.href = "index.php";
         } else if (r.data == 'locked') {
           alert('account is locked');
+        }
+        else {
+          alert("Invald Credentials");
         }
       });
     },
@@ -83,9 +86,11 @@ createApp({
       }
       const data = new FormData(e.currentTarget);
       data.append("method", "register");
-      axios.post(`../api/index.php`, data).then((r) => {
+      axios.post(`../api/auth.php`, data).then((r) => {
         if (r.data == 0) {
           location.href = "index.php";
+        }else{
+          alert("Invalid Credentials");
         }
       });
     },

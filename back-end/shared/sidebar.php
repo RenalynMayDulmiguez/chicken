@@ -41,6 +41,11 @@
               <li>
                 <a href="add-new-product.php">Add New Products</a>
               </li>
+
+              <li>
+                <a href="transaction.php">Transactions</a>
+              </li>
+              
             </ul>
           </li>
 

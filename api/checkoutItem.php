@@ -73,6 +73,27 @@ function deleteThisCart()
     $query->close();
 }
 
+function updateStatusTransaction()
+{
+    global $con;
+    $id = $_POST['ID'];
+    $status = $_POST['status'];
+
+    $sql = updateThisTransaction();
+    $query = $con->prepare($sql);
+    $query->bind_param('ii', $status, $id);
+    $query->execute();
+    $result = $query->get_result();
+
+    if (!$result) {
+        echo 200;
+    } else {
+        echo 401;
+    }
+
+    $query->close();
+}
+
 //Wala pani mahuman
 function adminDashboardViewPaidFunction()
 {
@@ -109,6 +130,25 @@ function adminDashboardNoPaidPaidFunction()
     echo json_encode($data);
 
 
+    $query->close();
+}
+
+function displayTransaction()
+{
+    global $con;
+
+    $sql = displayTransactionQuery();
+    $query = $con->prepare($sql);
+    $query->execute();
+    $result = $query->get_result();
+    $data = [];
+
+    while($r = $result->fetch_assoc()) {
+      $r['images'] = json_decode($r['images']);
+      $data[] = $r;
+    }
+  
+    echo json_encode($data);
     $query->close();
 }
 
@@ -156,4 +196,12 @@ function adminDashboardNoPaidPaidQuery(){
 
 function adminDashboardDeliveredPaidQuery(){
     return  "SELECT COUNT(*) AS deliveryStatus FROM `transaction` WHERE `deliver_status` = 1";
+}
+
+function displayTransactionQuery(){
+    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.seller_id = U.id ORDER BY T.created_date DESC";
+}
+
+function updateThisTransaction(){
+    return "UPDATE `transaction` SET `deliver_status` = ? WHERE `trans_id` = ?";
 }

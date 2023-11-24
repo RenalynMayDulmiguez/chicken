@@ -4,8 +4,9 @@ createApp({
   data() {
     return {
       products: [],
-      product: {},
+      product: [],
       carts: [],
+      recentOrders: [],
       users: [],
       editUserId: 0,
       editFullname: '',
@@ -39,6 +40,7 @@ createApp({
     this.adminDashboardViewPaidFunction();
     this.adminDashboardNoPaidPaidFunction();
     this.adminDashboardDeliveredPaidFunction();
+    this.adminRecentOrders();
   },
 
   methods: {
@@ -252,5 +254,12 @@ createApp({
         }
       });
     },
+    adminRecentOrders(){
+      const data = new FormData();
+      data.append("method", "adminRecentOrders");
+      axios.post("../api/index.php", data).then((r) => {
+          this.recentOrders = r.data;
+      });
+    }
   },
 }).mount("#pageWrapper");

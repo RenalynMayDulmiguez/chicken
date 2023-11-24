@@ -110,6 +110,7 @@ createApp({
       axios.post("../api/index.php", data).then((res) => {
         console.log(res.data);
         if (res.data == 1) {
+          alert("Added to Cart");
           this.displayCarts();
         } else {
           console.log(res.data);

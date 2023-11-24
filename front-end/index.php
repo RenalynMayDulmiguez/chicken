@@ -88,7 +88,7 @@ include './shared/head.php';
 
 
             <div class="row">
-              <div v-for="product in products" class="col-md-3">
+              <div v-for="product in products" class="<?php echo $_SESSION['id'] == null ? 'visually-hidden' : ''?>col-md-3">
                 <div class="product-box product-box-bg wow fadeInUp" data-wow-delay="0.1s">
                   <div class="product-image">
                     <a :href="`product.php?product_id=${product.id}`">
@@ -113,13 +113,11 @@ include './shared/head.php';
                     <a :href="`product.php?product_id=${product.id}`">
                       <h6 class="name">
                         {{ product.name }}
-                        <?php
-                          echo $_SESSION['role'];
-                        ?>
                       </h6>
                     </a>
 
                     <h5 class="sold text-content">
+                      <span class="theme-color price">₱ {{ product.price }}</span>
                       <span class="theme-color price">₱ {{ product.price }}</span>
                     </h5>
 
@@ -156,8 +154,8 @@ include './shared/head.php';
         clickable: true,
       },
       autoplay: {
-        delay: 2000, // Autoplay delay in milliseconds (4 seconds)
-        disableOnInteraction: false, // Prevents autoplay from stopping when the user interacts with the carousel
+        delay: 2000,
+        disableOnInteraction: false,
       },
     });
   </script>

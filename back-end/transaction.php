@@ -57,6 +57,8 @@ session_start();
                             <th>Total Amount</th>
                             <th>Payment Method</th>
                             <th>Delivery Status</th>
+                            <th>Proof of payment</th>
+                            <th>Mobile Number</th>
                             <th>Change Status</th>
                           </tr>
                         </thead>
@@ -73,6 +75,8 @@ session_start();
                             <td class="td-price">₱{{ t.transaction_amount }}</td>
                             <td class="td-price">{{ t.paymentMethod }}</td>
                             <td class="td-price">{{ t.deliver_status == 0 ? 'To be delivered' : 'Delivered' }}</td>
+                            <td class="td-price"><img :src="t.proofOfQRcode" class="img-fluid" :alt="product.mainImage" /></td>
+                            <td class="td-price">{{ t.mobile }}</td>
                             <td class="d-flex justify-content-center my-2">
                               <button class="btn btn-sm btn-info col-12" data-bs-toggle="modal" data-bs-target="#updateTransaction" @click="selectTrans(t.trans_id)">Update</button>
                             </td>

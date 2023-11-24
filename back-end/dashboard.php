@@ -117,7 +117,7 @@ session_start();
 
     <div class="page-body-wrapper">
       <?php include './shared/sidebar.php'; ?>
-      
+
       <div class="page-body">
         <div class="container-fluid">
           <div class="row align-items-stretch">
@@ -176,17 +176,9 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Crispy Fried Chicken</td>
-                        <td style="background-color: rgb(255, 0, 0); color:white;">Out of Stock</td>
-                      </tr>
-                      <tr>
-                        <td>Siomai</td>
-                        <td style="background-color: rgb(255, 255, 0);">Low on Stock</td>
-                      </tr>
-                      <tr>
-                        <td>Chicken Feet</td>
-                        <td style=" background-color: rgb(0, 255, 0);">In Stock</td>
+                      <tr v-for="product in products">
+                        <td>{{product.name}}</td>
+                        <td style="background-color: rgb(255, 225, 225); color:black;">{{product.quantity}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -204,19 +196,12 @@ session_start();
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th>Renalyn Dulmiguez</th>
-                        <td>Crispy Fried Chicken</td>
-                        <th>15</th>
-                        <td>300</td>
-                        <td>2023-10-07</td>
-                      </tr>
-                      <tr>
-                        <th>Rosell Mae Manulat</th>
-                        <td>Siomai</td>
-                        <th>8</th>
-                        <td>200</td>
-                        <td>2023-10-06</td>
+                      <tr v-for="ro of recentOrders">
+                        <th>{{ro.fullname}}</th>
+                        <td>{{ro.name}}</td>
+                        <th>{{ro.price}}</th>
+                        <td>{{ro.transaction_amount}}</td>
+                        <td>{{ro.created_date}}</td>
                       </tr>
                     </tbody>
                   </table>

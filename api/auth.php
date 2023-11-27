@@ -71,3 +71,25 @@ function register()
         echo 0;
     }
 }
+
+
+function changePasswordProfile(){
+    global $con;
+
+    $id = $_SESSION['id'];
+    $currentPassword = md5($_POST['currentPassword']);
+    $confirmPassword = md5($_POST['confirmPassword']);
+
+    $sql = "UPDATE `users` SET `password` = ? WHERE `password` = ? AND `id` = ?";
+    $query = $con->prepare($sql);
+    $query->bind_param('ssi', $confirmPassword, $currentPassword, $id);
+    $query->execute();
+    $user = $query->get_result();
+    $query->close();
+
+    if(!$user){
+        echo 200;
+    }else{
+        echo 400;
+    }
+}

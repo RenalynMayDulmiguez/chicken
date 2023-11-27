@@ -4,12 +4,6 @@ session_start();
 if (!isset($_SESSION['id'])) {
   header('location:index.php');
 }
-$sessionData = isset($_SESSION['user']) ? $_SESSION['user'] : [];
-$username = isset($sessionData['username']) ? $sessionData['username'] : '';
-$fullname = isset($sessionData['fullname']) ? $sessionData['fullname'] : '';
-$address = isset($sessionData['address']) ? $sessionData['address'] : '';
-$email = isset($sessionData['email']) ? $sessionData['email'] : '';
-$mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +75,7 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
 
   include './shared/loader.php';
   ?>
-  <div>
+  <div id="app">
 
     <header class="pb-0">
       <div class="header-top bg-dark">
@@ -129,7 +123,7 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
                 </button>
                 <a href="index.php" class="nav-logo">
                   <img src="../assets/images/friedlogo.jpg" class="img-fluid" width="100" alt="" />
-                </a>  
+                </a>
 
                 <div class="rightside-box">
                   <ul class="right-side-menu">
@@ -226,7 +220,6 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
           </div>
         </div>
       </div>
-
       <!-- Header End -->
 
 
@@ -235,13 +228,13 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
           <div class="col-md-6">
             <h3 class="text-black" style="font-size: 35px;">PROFILE</h3>
             <form class="h2">
-              <h2 class="form-control mb-4 bg-white text-black">Username: {{ username }}</h2>
-              <h2 class="form-control mb-4 bg-white text-black">Fullname: {{ fullname }}</h2>
-              <h2 class="form-control mb-4 bg-white text-black">Address: {{ address }}</h2>
-              <h2 class="form-control mb-4 bg-white text-black">Mobile: {{ mobile }}</h2>
-              <h2 class="form-control mb-4 bg-white text-black">Email: {{ email }}</h2>
-              <a class="btn btn-md btn-success float-end mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background: blue; color: white;">Edit</a>
-              <a class="btn btn-md btn-warning float-end mt-3 me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal" style="background: green; color: white;">Change Password</a>
+              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Username:</span> <span class="fw-light fst-italic">{{ usernamei }}</span></h2>
+              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Fullname:</span> <span class="fw-light fst-italic">{{ fullnamei }}</span></h2>
+              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Address:</span> <span class="fw-light fst-italic">{{ addressi }}</span></h2>
+              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Mobile:</span> <span class="fw-light fst-italic">{{ mobilei }}</span></h2>
+              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Email:</span> <span class="fw-light fst-italic">{{ emaili }}</span></h2>
+              <a class="btn btn-md btn-success float-end mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background: blue; color: white;" @click="getUser(idi)">Edit</a>
+              <a class="btn btn-md btn-warning float-end mt-3 me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal" @click="getUser(idi)" style="background: green; color: white;">Change Password</a>
             </form>
           </div>
           <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -251,11 +244,8 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
           </div>
         </div>
       </div>
-
-
-      <!-- Edit Modal -->
       <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" id="edit-app">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editModalLabel">Edit User Profile</h5>
@@ -265,43 +255,40 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
               <form @submit.prevent="editDetails($event)">
                 <div class="mb-4">
                   <label for="username" class="text-xl">Username</label>
-                  <input type="text" class="form-control" id="username" name="username" v-model="username">
+                  <input type="text" class="form-control" id="username" name="username" v-model="usernamei">
                 </div>
                 <div class="mb-4">
                   <label for="fullname" class="text-xl">Full Name</label>
-                  <input type="text" class="form-control" id="fullname" name="fullname" v-model="fullname">
+                  <input type="text" class="form-control" id="fullname" name="fullname" v-model="fullnamei">
                 </div>
                 <div class="mb-4">
                   <label for="address" class="text-xl">Address</label>
-                  <input type="text" class="form-control" id="address" name="address" v-model="address">
+                  <input type="text" class="form-control" id="address" name="address" v-model="addressi">
                 </div>
                 <div class="mb-4">
                   <label for="mobile" class="text-xl">Mobile</label>
-                  <input type="text" class="form-control" id="mobile" name="mobile" v-model="mobile">
+                  <input type="text" class="form-control" id="mobile" name="mobile" v-model="mobilei">
                 </div>
                 <div class="mb-4">
                   <label for="email" class="text-xl">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" v-model="email">
+                  <input type="text" class="form-control" id="email" name="email" v-model="emaili">
                 </div>
-                <button type="submit" class="btn btn-primary" style="font-size: 20px; background: green;">Save Changes</button>
+                <button type="submit" class="btn btn-primary" style="font-size: 20px; background: green;" @click="saveChanges">Save Changes</button>
               </form>
             </div>
           </div>
         </div>
       </div>
-
-
-
       <!-- Change Password Modal ----->
       <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered" id="edit-app">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="app">
-              <form @submit.prevent="changePassword($event)">
+              <div class="form">
                 <div class="mb-3">
                   <label for="current-password" class="form-label" style="font-size: 20px; font-family: emoji;">Current Password</label>
                   <div class="password-toggle-container">
@@ -326,90 +313,50 @@ $mobile = isset($sessionData['mobile']) ? $sessionData['mobile'] : '';
                   </div>
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary" style="font-size:20px; font-family:emoji; background:skyblue;">Change Password</button>
+                  <button type="submit" class="btn btn-primary" style="font-size:20px; font-family:emoji; background:skyblue;" @click="changePasswordProfile">Change Password</button>
                 </div>
-              </form>
+              </div>
               <p class="error" id="message error"> {{error}} </p>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- custom js file  -->
-      <?php include './shared/scripts.php'; ?>
-      <script src="../src/user.js"></script>
-
-      <script>
-        const app = Vue.createApp({
-          data() {
-            return {
-              username: '<?= $username ?>',
-              fullname: '<?= $fullname ?>',
-              address: '<?= $address ?>',
-              mobile: '<?= $mobile ?>',
-              email: '<?= $email ?>',
-            };
-          },
-          methods: {
-            async editDetails(e) {
-              try {
-                const formData = new FormData();
-                formData.append('method', 'fnUpdate');
-                formData.append('username', this.username);
-                formData.append('fullname', this.fullname);
-                formData.append('address', this.address);
-                formData.append('mobile', this.mobile);
-                formData.append('email', this.email);
-
-                const response = await axios.post(`../api/user-api.php`, formData);
-
-                if (response.data === 1) {
-                  alert('Your Personal Information Has Been Updated');
-                  window.location.reload();
-                } else {
-                  alert('There was an error updating your user!');
-                  console.log(response.data); // Display the error message from the server
-                }
-              } catch (error) {
-                console.error(error);
-                alert('An error occurred while updating your user.');
-              }
-            },
-          },
-        });
-
-        app.mount('#edit-app'); // Make sure to mount your Vue app to an element with id "app"
-      </script>
-      <<script>
-        const toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
-        const toggleNewPassword = document.querySelector("#toggleNewPassword");
-        const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
-        const currentPassword = document.querySelector("#current-password");
-        const newPassword = document.querySelector("#new-password");
-        const confirmPassword = document.querySelector("#confirm-password");
-
-        toggleCurrentPassword.addEventListener("click", function () {
-        const type = currentPassword.getAttribute("type") === "password" ? "text" : "password";
-        currentPassword.setAttribute("type", type);
-        this.classList.toggle("fa-lock");
-        this.classList.toggle("fa-unlock");
-        });
-
-        toggleNewPassword.addEventListener("click", function () {
-        const type = newPassword.getAttribute("type") === "password" ? "text" : "password";
-        newPassword.setAttribute("type", type);
-        this.classList.toggle("fa-lock");
-        this.classList.toggle("fa-unlock");
-        });
-
-        toggleConfirmPassword.addEventListener("click", function () {
-        const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
-        confirmPassword.setAttribute("type", type);
-        this.classList.toggle("fa-lock");
-        this.classList.toggle("fa-unlock");
-        });
-        </script>
   </div>
+
+  <!-- custom js file  -->
+  <?php include './shared/scripts.php'; ?>
+  <script src="../src/user.js"></script>
+
+  <script>
+    const toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
+    const toggleNewPassword = document.querySelector("#toggleNewPassword");
+    const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+    const currentPassword = document.querySelector("#current-password");
+    const newPassword = document.querySelector("#new-password");
+    const confirmPassword = document.querySelector("#confirm-password");
+
+    toggleCurrentPassword.addEventListener("click", function () {
+    const type = currentPassword.getAttribute("type") === "password" ? "text" : "password";
+    currentPassword.setAttribute("type", type);
+    this.classList.toggle("fa-lock");
+    this.classList.toggle("fa-unlock");
+    });
+
+    toggleNewPassword.addEventListener("click", function () {
+    const type = newPassword.getAttribute("type") === "password" ? "text" : "password";
+    newPassword.setAttribute("type", type);
+    this.classList.toggle("fa-lock");
+    this.classList.toggle("fa-unlock");
+    });
+
+    toggleConfirmPassword.addEventListener("click", function () {
+    const type = confirmPassword.getAttribute("type") === "password" ? "text" : "password";
+    confirmPassword.setAttribute("type", type);
+    this.classList.toggle("fa-lock");
+    this.classList.toggle("fa-unlock");
+    });
+    </script>
+    </div>
 
 
 </body>

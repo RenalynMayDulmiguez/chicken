@@ -40,7 +40,7 @@ function displayUser()
     global $con;
     $user_id = $_SESSION['id'];
 
-    $sql = `CALL displayUser(?)`;
+    $sql = "SELECT * FROM users WHERE id = ?";
     $query = $con->prepare($sql);
     $query->bind_param('i', $user_id);
     $query->execute();
@@ -83,48 +83,6 @@ function fnUpdate()
     }
 }
 
-
-function fnChangePassword()
-{
-    global $con;
-
-    // Retrieve the user ID from the session
-    $id = $_SESSION['id'];
-
-    // Retrieve the current password and new password from the POST request
-    $currentPassword = md5($_POST['currentPassword']);
-    $newPassword = md5($_POST['newPassword']);
-    $confirmPassword = md5($_POST['confirmPassword']);
-
-    // Validate the new password and confirm password
-    if ($newPassword !== $confirmPassword) {
-        echo 'passwordMismatch';
-        exit;
-    }
-
-    // Retrieve the current password from the database
-    $query = $con->prepare('SELECT password FROM users WHERE id = ?');
-    $query->bind_param('i', $id);
-    $query->execute();
-    $result = $query->get_result()->fetch_assoc();
-
-    // Compare the current password with the one retrieved from the database
-    if (!$result || $currentPassword !== $result['password']) {
-        echo 'currentPasswordMismatch';
-        exit;
-    }
-
-    // Update the password in the database
-    $query = $con->prepare('UPDATE users SET password = ? WHERE id = ?');
-    $query->bind_param('si', $newPassword, $id);
-
-    if ($query->execute()) {
-        echo 'success';
-    } else {
-        echo 'error';
-    }
-}
-
 function deleteUser()
 {
     global $con;
@@ -135,6 +93,7 @@ function deleteUser()
     $query->close();
     $con->close();
 }
+
 function editUser()
 {
     global $con;
@@ -157,3 +116,29 @@ function editUser()
 
     $query->close();
 }
+
+
+function UpdateProfile(){
+    global $con;
+
+    $id = $_SESSION['id'];
+    $username = $_POST['username'];
+    $fullname = $_POST['fullname'];
+    $address = $_POST['address'];
+    $mobile = $_POST['mobile'];
+    $email = $_POST['email'];
+
+    $sql = "UPDATE `users` SET `username`= ? ,`fullname`= ?, `address`= ?,`mobile`= ?,`email`= ? WHERE `id`= ?";
+    $query = $con->prepare($sql);
+    $query->bind_param('sssssi', $username, $fullname, $address, $mobile, $email, $id);
+    $query->execute();
+    $user = $query->get_result();
+    $query->close();
+
+    if(!$user){
+        echo 200;
+    }else{
+        echo 400;
+    }
+}
+

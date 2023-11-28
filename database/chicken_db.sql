@@ -1,3 +1,11 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 28, 2023 at 08:34 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -9,15 +17,17 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
-
+--
 -- Database: `chicken_db`
-
+--
 
 DELIMITER $$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addProduct` (IN `p_user_id` INT, IN `p_name` VARCHAR(255), IN `p_description` VARCHAR(255), IN `p_quantity` INT, IN `p_price` DOUBLE, IN `p_images` TEXT)   BEGIN
-    INSERT INTO products(user_id, name, description, quantity, price, images)
-    VALUES(p_user_id, p_name, p_description, p_quantity, p_price, p_images);
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addProduct` (IN `p_user_id` INT, IN `p_name` VARCHAR(255), IN `p_description` VARCHAR(255), IN `p_quantity` INT, IN `p_price` DOUBLE, IN `p_images` TEXT, IN `p_qrcode` TEXT)   BEGIN
+    INSERT INTO products(user_id, name, description, quantity, price, images, qrcode)
+    VALUES(p_user_id, p_name, p_description, p_quantity, p_price, p_images, p_qrcode);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addToCart` (IN `p_user_id` INT, IN `p_product_id` INT)   BEGIN
@@ -93,7 +103,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `register` (IN `p_fullname` VARCHAR(255), IN `p_username` VARCHAR(255), IN `p_email` VARCHAR(255), IN `p_password` VARCHAR(255), IN `p_address` VARCHAR(255), IN `p_mobile` VARCHAR(255), IN `p_qrcode` TEXT)   BEGIN
 	INSERT 
-    INTO users(fullname, username, email, password, address, mobile, myQrCode)
+    INTO users(fullname, username, email, password, address, mobile, profile)
     VALUES (p_fullname, p_username, p_email, p_password, p_address, p_mobile, p_qrcode);
 END$$
 
@@ -138,16 +148,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `updateCounterlock` (IN `p_user_id` 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateFavorites` (IN `p_user_id` INT, IN `p_product_id` INT)   BEGIN
+  -- Declare a variable to hold the count
   DECLARE count INT;
   
+  -- Check if the record exists
   SELECT COUNT(*) INTO count
   FROM favorites
   WHERE user_id = p_user_id
   AND product_id = p_product_id;
   
+  -- If the record doesn't exist, add it
   IF count = 0 THEN
     INSERT INTO favorites (user_id, product_id)
     VALUES (p_user_id, p_product_id);
+  -- If records exists, then delete it
   ELSEIF count > 0 THEN
   	DELETE
 	FROM favorites
@@ -180,7 +194,11 @@ END$$
 
 DELIMITER ;
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `carts`
+--
 
 CREATE TABLE `carts` (
   `id` int(11) NOT NULL,
@@ -192,7 +210,11 @@ CREATE TABLE `carts` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `favorites`
+--
 
 CREATE TABLE `favorites` (
   `id` int(11) NOT NULL,
@@ -202,10 +224,15 @@ CREATE TABLE `favorites` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `products`
+--
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
+  `qrcode` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -216,7 +243,6 @@ CREATE TABLE `products` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 
 CREATE TABLE `transaction` (
@@ -231,10 +257,15 @@ CREATE TABLE `transaction` (
   `created_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `users`
+--
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `profile` text NOT NULL,
   `fullname` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -246,60 +277,96 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL DEFAULT 0,
   `counterlock` int(11) NOT NULL DEFAULT 0,
-  `myQrCode` text NOT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
-INSERT INTO `users` (`id`, `fullname`, `username`, `password`, `email`, `address`, `mobile`, `role`, `created_at`, `updated_at`, `status`, `counterlock`, `myQrCode`, `deleted_at`) VALUES
-(1, 'Admin', 'Admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'LLC', '09123456789', 1, '2023-11-24 02:33:02', '2023-11-24 02:33:02', 1, 0, '[\"product-aw aw aw-54795.png\"]', NULL);
-
 
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `carts.product_id` (`product_id`),
   ADD KEY `carts.user_id` (`user_id`);
 
+--
+-- Indexes for table `favorites`
+--
 ALTER TABLE `favorites`
   ADD PRIMARY KEY (`id`),
   ADD KEY `favorites.user_id` (`user_id`),
   ADD KEY `favorites.product_id` (`product_id`);
 
+--
+-- Indexes for table `products`
+--
 ALTER TABLE `products`
   ADD PRIMARY KEY (`id`),
   ADD KEY `products_user_id` (`user_id`);
 
+--
+-- Indexes for table `transaction`
+--
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`trans_id`);
 
+--
+-- Indexes for table `users`
+--
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
+--
+-- AUTO_INCREMENT for dumped tables
+--
 
+--
+-- AUTO_INCREMENT for table `carts`
+--
 ALTER TABLE `carts`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `favorites`
+--
 ALTER TABLE `favorites`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `products`
+--
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
+--
+-- AUTO_INCREMENT for table `transaction`
+--
 ALTER TABLE `transaction`
   MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT for table `users`
+--
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
+--
+-- Constraints for dumped tables
+--
 
+--
+-- Constraints for table `carts`
+--
 ALTER TABLE `carts`
   ADD CONSTRAINT `carts.product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `carts.user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+--
+-- Constraints for table `favorites`
+--
 ALTER TABLE `favorites`
   ADD CONSTRAINT `favorites.product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `favorites.user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+--
+-- Constraints for table `products`
+--
 ALTER TABLE `products`
   ADD CONSTRAINT `products.user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;

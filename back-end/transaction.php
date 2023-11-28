@@ -74,7 +74,7 @@ session_start();
                             <td class="td-price">{{ t.fullname }}</td>
                             <td class="td-price">₱{{ t.transaction_amount }}</td>
                             <td class="td-price">{{ t.paymentMethod }}</td>
-                            <td class="td-price">{{ t.deliver_status == 0 ? 'To be delivered' : 'Delivered' }}</td>
+                            <td class="td-price">{{ t.deliver_status == 0 ? 'Waiting for Approval' : 'Approved' }}</td>
                             <td class="td-price"><img :src="t.proofOfQRcode" class="img-fluid" :alt="product.mainImage" /></td>
                             <td class="td-price">{{ t.mobile }}</td>
                             <td class="d-flex justify-content-center my-2">
@@ -93,7 +93,7 @@ session_start();
                             <div class="modal-body">
                               <select v-model="TransStatus" class="form-control">
                                 <option value="selected">Select</option>
-                                <option :value="selectedTransStatus == 0 ? '1' : '0'">{{selectedTransStatus == 0 ? 'Not yet deliver' : 'To be delivered'}}</option>
+                                <option :value="selectedTransStatus == 0 ? '1' : '2'">{{selectedTransStatus == 0 ? 'Pending' : selectedTransStatus == 1 ? 'Approve' : 'Decline'}}</option>
                               </select>
                             </div>
                             <div class="modal-footer">

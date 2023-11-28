@@ -10,7 +10,7 @@ createApp({
             cartsId: [],
             totalAmount: 0,
             shippingAmount: 10,
-            myQrCode: null,
+            myQrCode: [],
             fileInput: null
         };
     },
@@ -35,7 +35,7 @@ createApp({
                 vue.carts = res.data;
                 for (var v of res.data) {
                     vue.totalAmount = v.cartQuantitty * v.price;
-                    vue.myQrCode = v.myQrCode;
+                    vue.myQrCode.push(v.qrcode);
                     vue.cartsId.push(v.cartId);
                 }
             });

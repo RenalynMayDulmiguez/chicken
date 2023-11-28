@@ -226,7 +226,7 @@ if (!isset($_SESSION['id'])) {
       <div class="container" id="edit-app">
         <div class="row">
           <div class="col-md-6">
-            <h3 class="text-black" style="font-size: 35px;">PROFILE</h3>
+            <h3 class="text-black" style="font-size: 35px;">Profile</h3>
             <form class="h2">
               <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Username:</span> <span class="fw-light fst-italic">{{ usernamei }}</span></h2>
               <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Fullname:</span> <span class="fw-light fst-italic">{{ fullnamei }}</span></h2>
@@ -239,7 +239,7 @@ if (!isset($_SESSION['id'])) {
           </div>
           <div class="col-md-6 d-flex justify-content-center align-items-center">
             <!-- Add your photo here -->
-            <img src="../assets/images/friedlogo.jpg" alt="Profile Photo" class="img-fluid">
+            <img :src="qrCode" alt="Profile Photo" class="img-fluid">
             <!-- <i class="fas fa-user fa-5x"></i> -->
           </div>
         </div>

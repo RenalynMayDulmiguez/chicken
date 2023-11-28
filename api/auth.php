@@ -28,6 +28,7 @@ function login()
         $role = $row['role'];
         $status = $row['status'];
         $_SESSION['id'] = $row['id'];
+        $_SESSION['fullname'] = $row['fullname'];
     }
 
     if ($status < 3) {

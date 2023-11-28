@@ -5,11 +5,14 @@ createApp({
     return {
       products: [],
       favoritesLength: 0,
+      orderLength: 0,
       favoriteDatas: [],
+      orderDatas: [],
       carts: [],
     };
   },
   created() {
+    this.userOrder();
     this.displayCarts();
     this.displayMyFavorite();
   },
@@ -61,6 +64,14 @@ createApp({
       axios.post("../api/index.php", data).then((res) => {
         console.log(res.data)
         this.carts = res.data;
+      });
+    },
+    userOrder() {
+      const data = new FormData();
+      data.append("method", "userOrder");
+      axios.post("../api/index.php", data).then((res) => {
+        this.orderDatas = res.data;
+        this.orderLength = res.data.length;
       });
     },
     addToMyFavorite(id) {

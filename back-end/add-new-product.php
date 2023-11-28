@@ -91,6 +91,14 @@
                           </div>
 
                           <div class="mb-4 row align-items-center">
+                            <label class="form-label-title col-sm-3 mb-0">Gcash Qr Code</label>
+                            <div class="col-sm-9">
+                              <!-- <input class="form-control" type="text" required name="name" placeholder="Product Name" /> -->
+                              <input type="file" name="qrcode" id="qrcode" class="form-control">
+                            </div>
+                          </div>
+
+                          <div class="mb-4 row align-items-center">
                             <label class="col-sm-3 col-form-label form-label-title">Description</label>
                             <div class="col-sm-9">
                               <div class="bs-example">

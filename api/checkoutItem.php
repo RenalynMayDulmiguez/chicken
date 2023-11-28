@@ -152,6 +152,27 @@ function displayTransaction()
     $query->close();
 }
 
+function userOrder()
+{
+    global $con;
+    $id = $_POST['user_id'];
+
+    $sql = userOrderQuery();
+    $query = $con->prepare($sql);
+    $query->bind_param('i', $id);
+    $query->execute();
+    $result = $query->get_result();
+    $data = [];
+
+    while($r = $result->fetch_assoc()) {
+      $r['images'] = json_decode($r['images']);
+      $data[] = $r;
+    }
+  
+    echo json_encode($data);
+    $query->close();
+}
+
 function adminRecentOrders()
 {
     global $con;
@@ -191,7 +212,7 @@ function adminDashboardDeliveredPaidFunction()
 
 function selectAllMyCart()
 {
-    return "SELECT c.id as cartId, c.quantity as cartQuantitty, p.*, u.myQrCode, u.email, u.mobile FROM `carts` as c INNER JOIN `products` as p INNER JOIN `users` as u ON c.product_id = p.id AND c.user_id = u.id WHERE c.user_id = ?";
+    return "SELECT c.id as cartId, c.quantity as cartQuantitty, p.*, p.qrcode, u.email, u.mobile FROM `carts` as c INNER JOIN `products` as p INNER JOIN `users` as u ON c.product_id = p.id AND c.user_id = u.id WHERE c.user_id = ?";
 }
 
 function deleteThisCartQuery()
@@ -226,4 +247,8 @@ function updateThisTransaction(){
 
 function adminRecentOrdersQuery(){
     return "SELECT u.fullname, p.name, p.price, t.transaction_amount, t.created_date FROM `transaction` as t INNER JOIN `users` as u INNER JOIN `products` as p ON t.product_id = p.id AND t.buyer_id = u.id";
+}
+
+function userOrderQuery(){
+    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id WHERE t.buyer_id = ? ORDER BY T.created_date DESC ";
 }

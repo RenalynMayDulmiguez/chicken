@@ -54,6 +54,14 @@
                       </span>
                     </a>
                   </li>
+                  <li class="right-side d-block">
+                    <a href="myorders.php" class="btn p-0 position-relative header-wishlist">
+                      My Orders
+                      <span class="position-absolute top-0 start-100 translate-middle badge">
+                        {{ orderLength }}
+                      </span>
+                    </a>
+                  </li>
                   <li class="right-side">
                     <div class="onhover-dropdown header-badge">
                       <button type="button" class="btn p-0 position-relative header-wishlist">

@@ -9,6 +9,7 @@ createApp({
       transactions: [],
       favoriteDatas: [],
       favoritesLength: 0,
+      orderLength: 0,
       editQuantity: 0,
       editPrice: 0,
       currentPassword: '',
@@ -38,9 +39,18 @@ createApp({
     this.displayCarts();
     this.displayTransaction();
     this.displayMyFavorite();
+    this.userOrder();
   },
 
   methods: {
+    userOrder() {
+      const data = new FormData();
+      data.append("method", "userOrder");
+      axios.post("../api/index.php", data).then((res) => {
+        this.orderDatas = res.data;
+        this.orderLength = res.data.length;
+      });
+    },
     removeCart(id) {
       if (confirm("Are you sure you want to remove this?")) {
         const data = new FormData();

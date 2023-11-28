@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <label for="mobile">QRCODE</label>
+                                    <label for="mobile">Profile</label>
                                     <input type="file" name="qrcode" id="qrcode" class="form-control">
                                 </div>
 

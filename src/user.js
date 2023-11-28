@@ -126,7 +126,7 @@ createApp({
         vue.mobilei = r.data.mobile;
         vue.emaili = r.data.email;
         vue.idi = r.data.id;
-        vue.qrCode = r.data.myQrCode;
+        vue.qrCode = r.data.profile;
       });
     },
     saveChanges() {

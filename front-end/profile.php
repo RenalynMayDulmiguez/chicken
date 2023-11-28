@@ -239,7 +239,7 @@ if (!isset($_SESSION['id'])) {
           </div>
           <div class="col-md-6 d-flex justify-content-center align-items-center">
             <!-- Add your photo here -->
-            <img :src="qrCode" alt="Profile Photo" class="img-fluid">
+            <img :src="qrCode" alt="Profile Photo" width="100 " class="img-fluid">
             <!-- <i class="fas fa-user fa-5x"></i> -->
           </div>
         </div>

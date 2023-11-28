@@ -27,17 +27,9 @@
           <div class="media profile-media">
             <div class="user-name-hide media-body">
               <span>
-                <?php
-                echo $_SESSION['user']['fullname'];
-                ?>
+                <?php echo $_SESSION['fullname']?>
               </span>
               <p class="mb-0 font-roboto">
-                <?php
-                if (['role'] == 1) {
-                  echo 'Admin';
-                }
-
-                ?>
                 <i class="middle ri-arrow-down-s-line"></i>
               </p>
             </div>

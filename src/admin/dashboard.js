@@ -232,7 +232,7 @@ createApp({
       data.append("method", "adminDashboardViewPaidFunction");
       axios.post("../api/index.php", data).then((res) => {
         for (var v of res.data) {
-          this.paid = v.paid;
+          this.paid = v.paid == null ? 0 : v.paid;
         }
       });
     },

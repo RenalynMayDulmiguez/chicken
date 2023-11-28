@@ -124,9 +124,7 @@
             </div>
         </div>
     </section>
-    <!-- log in section end -->
     <?php include './shared/footer.php'; ?>
-
 </div>
 <?php include './shared/scripts.php'; ?>
 <script src="../src/user.js"></script>

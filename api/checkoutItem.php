@@ -251,12 +251,12 @@ function sentToTransactionQuery()
 
 function adminDashboardViewPaidQuery()
 {
-    return "SELECT SUM(transaction_amount) AS paid FROM `transaction` WHERE !`proofOfQRcode`";
+    return "SELECT SUM(transaction_amount) AS paid FROM `transaction` WHERE `proofOfQRcode` != ''";
 }
 
 function adminDashboardNoPaidPaidQuery()
 {
-    return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode` = ''";
+    return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode` != ''";
 }
 
 function adminDashboardDeliveredPaidQuery()

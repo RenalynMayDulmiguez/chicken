@@ -6,18 +6,6 @@ function addProduct()
     $products = $_FILES['products'];
     $imagePlaceholder = [];
 
-    $file1 = $_FILES['qrcode'];
-    $fileName1 = $file1['name'];
-    $fileTmpName1 = $file1['tmp_name'];
-
-    $upload_path1 = '';
-    if (move_uploaded_file($fileTmpName1, '../uploads/products/' . $fileName1)) {
-        $upload_dir1 = '../uploads/products/';
-        $upload_path1 = $upload_dir1 . $fileName1;
-    } else {
-        echo "File upload failed.";
-    }
-
     for ($i = 0; $i < count($products['name']); $i++) {
         $random_number = mt_rand(10000, 99999);
         $file_extension = pathinfo($products['name'][$i], PATHINFO_EXTENSION);
@@ -65,10 +53,10 @@ function addProduct()
         }
     }
 
-    $query = $con->prepare('CALL addProduct(?,?,?,?,?,?,?)');
+    $query = $con->prepare('CALL addProduct(?,?,?,?,?,?)');
     $images = json_encode($imagePlaceholder);
     $id = (int)$_SESSION['id'];
-    $query->bind_param('issidss', $id, $_POST['name'], $_POST['description'], $_POST['quantity'], $_POST['price'], $images, $upload_path1);
+    $query->bind_param('issids', $id, $_POST['name'], $_POST['description'], $_POST['quantity'], $_POST['price'], $images);
     $query->execute();
     if ($query->affected_rows >= 1) {
         echo 1;

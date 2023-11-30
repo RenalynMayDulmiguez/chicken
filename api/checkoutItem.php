@@ -256,7 +256,7 @@ function adminDashboardViewPaidQuery()
 
 function adminDashboardNoPaidPaidQuery()
 {
-    return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode`";
+    return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode` = ''";
 }
 
 function adminDashboardDeliveredPaidQuery()

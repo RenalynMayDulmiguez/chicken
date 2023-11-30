@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 11:10 AM
+-- Generation Time: Nov 30, 2023 at 11:29 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -210,14 +210,6 @@ CREATE TABLE `carts` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `carts`
---
-
-INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 5, 38, 3, '2023-11-30 09:47:41', '2023-11-30 09:47:41', NULL),
-(2, 5, 39, 1, '2023-11-30 09:53:22', '2023-11-30 09:53:22', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -286,6 +278,14 @@ CREATE TABLE `transaction` (
   `created_date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `transaction`
+--
+
+INSERT INTO `transaction` (`trans_id`, `product_id`, `seller_id`, `buyer_id`, `transaction_amount`, `paymentMethod`, `proofOfQRcode`, `deliver_status`, `created_date`) VALUES
+(1, 38, 1, 5, 33, '2', '', 0, '2023-11-30 10:17:52'),
+(2, 39, 1, 5, 11, '2', '../uploads/products/3.png', 0, '2023-11-30 10:17:52');
+
 -- --------------------------------------------------------
 
 --
@@ -315,7 +315,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `profile`, `fullname`, `username`, `password`, `email`, `address`, `mobile`, `role`, `created_at`, `updated_at`, `status`, `qrcodeMain`, `counterlock`, `deleted_at`) VALUES
-(1, '', 'Admin', 'Admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'LLC', '09123456789', 2, '2023-11-24 02:33:02', '2023-11-24 02:33:02', 1, '../uploads/products/3.png', 0, NULL),
+(1, '', 'Admin', 'Admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'LLC', '09123456789', 1, '2023-11-24 02:33:02', '2023-11-24 02:33:02', 0, '../uploads/products/3.png', 0, NULL),
 (2, '', '12312323', 'Sample Of This', 'caf1a3dfb505ffed0d024130f58c5cfa', '123123@123', '123123', '123123', 1, '2023-11-26 05:11:03', '2023-11-26 05:11:03', 0, '', 0, NULL),
 (3, '', '123123', '123123', '4297f44b13955235245b2497399d7a93', '123123@123123', '123123', '123123', 0, '2023-11-28 06:32:01', '2023-11-28 06:32:01', 0, '', 0, NULL),
 (4, '', '123123', '123123', '202cb962ac59075b964b07152d234b70', '123@123123', '123123', '123123', 0, '2023-11-28 06:34:12', '2023-11-28 06:34:12', 0, '', 0, NULL),
@@ -386,7 +386,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`

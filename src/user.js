@@ -38,7 +38,8 @@ createApp({
           alert('account is locked');
         }
         else {
-          alert("Invald Credentials");
+          // alert("Invald Credentials");
+          alert(r.data);
         }
       });
     },

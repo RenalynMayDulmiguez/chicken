@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2023 at 08:34 AM
+-- Generation Time: Nov 30, 2023 at 11:10 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -210,6 +210,14 @@ CREATE TABLE `carts` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 5, 38, 3, '2023-11-30 09:47:41', '2023-11-30 09:47:41', NULL),
+(2, 5, 39, 1, '2023-11-30 09:53:22', '2023-11-30 09:53:22', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -224,6 +232,13 @@ CREATE TABLE `favorites` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `favorites`
+--
+
+INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
+(1, 5, 38, '2023-11-30 09:53:03', '2023-11-30 09:53:03');
+
 -- --------------------------------------------------------
 
 --
@@ -232,7 +247,6 @@ CREATE TABLE `favorites` (
 
 CREATE TABLE `products` (
   `id` int(11) NOT NULL,
-  `qrcode` text NOT NULL,
   `user_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
@@ -244,6 +258,21 @@ CREATE TABLE `products` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `user_id`, `name`, `description`, `quantity`, `price`, `images`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(37, 1, '23123', '123123', 12, 12, '[\"product-23123-77081.jpg\"]', '2023-11-26 06:41:25', '2023-11-26 06:41:25', NULL),
+(38, 1, '123123', 'This is just a sample', 10, 11, '[\"product-123123-32732.png\"]', '2023-11-28 07:01:59', '2023-11-28 07:01:59', NULL),
+(39, 1, '123123', 'This is just a sample', 10, 11, '[\"product-123123-73487.jpg\"]', '2023-11-28 07:17:23', '2023-11-28 07:17:23', NULL),
+(40, 1, 'Prods', 'This is just a sample.', 11, 11, '[\"product-Prods-67426.png\"]', '2023-11-28 07:18:54', '2023-11-28 07:18:54', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaction`
+--
 
 CREATE TABLE `transaction` (
   `trans_id` int(11) NOT NULL,
@@ -276,10 +305,29 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` int(11) NOT NULL DEFAULT 0,
+  `qrcodeMain` text DEFAULT NULL,
   `counterlock` int(11) NOT NULL DEFAULT 0,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `profile`, `fullname`, `username`, `password`, `email`, `address`, `mobile`, `role`, `created_at`, `updated_at`, `status`, `qrcodeMain`, `counterlock`, `deleted_at`) VALUES
+(1, '', 'Admin', 'Admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'LLC', '09123456789', 2, '2023-11-24 02:33:02', '2023-11-24 02:33:02', 1, '../uploads/products/3.png', 0, NULL),
+(2, '', '12312323', 'Sample Of This', 'caf1a3dfb505ffed0d024130f58c5cfa', '123123@123', '123123', '123123', 1, '2023-11-26 05:11:03', '2023-11-26 05:11:03', 0, '', 0, NULL),
+(3, '', '123123', '123123', '4297f44b13955235245b2497399d7a93', '123123@123123', '123123', '123123', 0, '2023-11-28 06:32:01', '2023-11-28 06:32:01', 0, '', 0, NULL),
+(4, '', '123123', '123123', '202cb962ac59075b964b07152d234b70', '123@123123', '123123', '123123', 0, '2023-11-28 06:34:12', '2023-11-28 06:34:12', 0, '', 0, NULL),
+(5, '../uploads/products/3.png', '123', '123', '202cb962ac59075b964b07152d234b70', '123@123123', '123', '123', 0, '2023-11-28 06:47:13', '2023-11-28 06:47:13', 0, '', 0, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `carts`
+--
 ALTER TABLE `carts`
   ADD PRIMARY KEY (`id`),
   ADD KEY `carts.product_id` (`product_id`),
@@ -320,19 +368,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `transaction`
@@ -344,7 +392,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

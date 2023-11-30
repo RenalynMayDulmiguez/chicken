@@ -66,7 +66,7 @@ include './shared/head.php'; ?>
 
               <div class="add-to-cart-box bg-white mt-2">
                 <!-- Define addToCartFromFavorites function in your Vue component -->
-                <button @click="addToCartFromFavorites(product)" class="btn btn-add-cart addcart-button">Add</button>
+                <button @click="addToCart(product.id)" class="btn btn-add-cart addcart-button">Add</button>
               </div>
             </div>
           </div>

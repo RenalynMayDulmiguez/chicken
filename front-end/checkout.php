@@ -57,7 +57,7 @@ include './shared/head.php';
                                                 </div>
                                                 <div v-if="showGcashPaymentMethod">
                                                     <div class="form-outline form-white mb-4">
-                                                        <a v-for="qr of myQrCode" :href="qr" target="_blank" class="btn btn-lg btn-lg btn-info">Scan and send via QRCODE</a>
+                                                        <a :href="qrcodemain" target="_blank" class="btn btn-lg btn-lg btn-info">Scan and send via QRCODE</a>
                                                     </div>
                                                     <div class="form-outline form-white mb-4">
                                                         Send here the proof of reciept

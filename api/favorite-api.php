@@ -41,6 +41,25 @@ function addToMyFavorite()
     }
 }
 
+function addToCartFromFavorites()
+{
+    global $con;
+    $pId = $_POST['pid'];
+    $Uid = $_POST['user_id'];
+
+
+    $sql = "INSERT INTO carts(`product_id`) SELECT ? FROM `favorites` AS f WHERE f.id = ?";
+    $query = $con->prepare($sql);
+    $query->bind_param('ii', $pId, $Uid);
+    $query->execute();
+
+    if ($query->affected_rows >= 1) {
+        echo 200;
+    }else{
+        echo 401;
+    }
+}
+
 
 function removeFavorite() {
     global $con;

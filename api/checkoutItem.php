@@ -143,11 +143,11 @@ function displayTransaction()
     $result = $query->get_result();
     $data = [];
 
-    while($r = $result->fetch_assoc()) {
-      $r['images'] = json_decode($r['images']);
-      $data[] = $r;
+    while ($r = $result->fetch_assoc()) {
+        $r['images'] = json_decode($r['images']);
+        $data[] = $r;
     }
-  
+
     echo json_encode($data);
     $query->close();
 }
@@ -164,11 +164,11 @@ function userOrder()
     $result = $query->get_result();
     $data = [];
 
-    while($r = $result->fetch_assoc()) {
-      $r['images'] = json_decode($r['images']);
-      $data[] = $r;
+    while ($r = $result->fetch_assoc()) {
+        $r['images'] = json_decode($r['images']);
+        $data[] = $r;
     }
-  
+
     echo json_encode($data);
     $query->close();
 }
@@ -183,10 +183,10 @@ function adminRecentOrders()
     $result = $query->get_result();
     $data = [];
 
-    while($r = $result->fetch_assoc()) {
-      $data[] = $r;
+    while ($r = $result->fetch_assoc()) {
+        $data[] = $r;
     }
-  
+
     echo json_encode($data);
     $query->close();
 }
@@ -209,10 +209,34 @@ function adminDashboardDeliveredPaidFunction()
     $query->close();
 }
 
+function getQrCodeForAdminqFunction()
+{
+    global $con;
+
+    $sql = getQrCodeForAdminqQuery();
+    $query = $con->prepare($sql);
+    $query->execute();
+    $result = $query->get_result();
+    $data = [];
+
+    while ($r = $result->fetch_assoc()) {
+        $data[] = $r;
+    }
+
+    echo json_encode($data);
+
+    $query->close();
+}
+
 
 function selectAllMyCart()
 {
-    return "SELECT c.id as cartId, c.quantity as cartQuantitty, p.*, p.qrcode, u.email, u.mobile FROM `carts` as c INNER JOIN `products` as p INNER JOIN `users` as u ON c.product_id = p.id AND c.user_id = u.id WHERE c.user_id = ?";
+    return "SELECT c.id as cartId, c.quantity as cartQuantitty, p.*, u.email, u.mobile FROM `carts` as c INNER JOIN `products` as p INNER JOIN `users` as u ON c.product_id = p.id AND c.user_id = u.id WHERE c.user_id = ?";
+}
+
+function getQrCodeForAdminqQuery()
+{
+    return "SELECT qrcodeMain FROM users WHERE id = 1";
 }
 
 function deleteThisCartQuery()
@@ -225,30 +249,37 @@ function sentToTransactionQuery()
     return "INSERT INTO `transaction`(`product_id`, `seller_id`, `buyer_id`, `transaction_amount`, `paymentMethod`, `proofOfQRcode`) SELECT p.id, p.user_id as seller_id, ? as buyer_id, SUM(p.price * c.quantity) as transaction_amount, ? as paymentMethod, ? as proofOfQRcode FROM `products` AS p INNER JOIN `carts` AS c ON c.product_id = p.id WHERE c.id = ?";
 }
 
-function adminDashboardViewPaidQuery(){
+function adminDashboardViewPaidQuery()
+{
     return "SELECT SUM(transaction_amount) AS paid FROM `transaction` WHERE !`proofOfQRcode`";
 }
 
-function adminDashboardNoPaidPaidQuery(){
+function adminDashboardNoPaidPaidQuery()
+{
     return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode`";
 }
 
-function adminDashboardDeliveredPaidQuery(){
+function adminDashboardDeliveredPaidQuery()
+{
     return  "SELECT COUNT(*) AS deliveryStatus FROM `transaction` WHERE `deliver_status` = 1 AND `proofOfQRcode` > 0";
 }
 
-function displayTransactionQuery(){
+function displayTransactionQuery()
+{
     return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id ORDER BY T.created_date DESC";
 }
 
-function updateThisTransaction(){
+function updateThisTransaction()
+{
     return "UPDATE `transaction` SET `deliver_status` = ? WHERE `trans_id` = ?";
 }
 
-function adminRecentOrdersQuery(){
+function adminRecentOrdersQuery()
+{
     return "SELECT u.fullname, p.name, p.price, t.transaction_amount, t.created_date FROM `transaction` as t INNER JOIN `users` as u INNER JOIN `products` as p ON t.product_id = p.id AND t.buyer_id = u.id";
 }
 
-function userOrderQuery(){
+function userOrderQuery()
+{
     return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id WHERE t.buyer_id = ? ORDER BY T.created_date DESC ";
 }

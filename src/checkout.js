@@ -5,6 +5,7 @@ createApp({
         return {
             showGcashPaymentMethod: false,
             paymentMethod: 'selected',
+            qrcodemain: '',
             selectedItem: [],
             carts: [],
             cartsId: [],
@@ -27,6 +28,16 @@ createApp({
                 alert(res.data);
             });
         },
+        getQrCodeForAdminqFunction: function () {
+            const vue = this;
+            const data = new FormData();
+            data.append("method", "getQrCodeForAdminqFunction");
+            axios.post("../api/index.php", data).then((res) => {
+                for (var v of res.data) {
+                    vue.qrcodemain = v.qrcodeMain;
+                }
+            });
+        },
         getAllCart: function () {
             const vue = this;
             const data = new FormData();
@@ -34,8 +45,7 @@ createApp({
             axios.post("../api/index.php", data).then((res) => {
                 vue.carts = res.data;
                 for (var v of res.data) {
-                    vue.totalAmount = v.cartQuantitty * v.price;
-                    vue.myQrCode.push(v.qrcode);
+                    vue.totalAmount += v.cartQuantitty * v.price;
                     vue.cartsId.push(v.cartId);
                 }
             });
@@ -109,6 +119,7 @@ createApp({
     },
     created() {
         this.getAllCart();
+        this.getQrCodeForAdminqFunction();
     },
     computed: {
         showIfGcashMethod: function () {

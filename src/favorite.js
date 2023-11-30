@@ -66,6 +66,21 @@ createApp({
         this.carts = res.data;
       });
     },
+    addToCart(id) {
+      const data = new FormData();
+      data.append("method", "addToCart");
+      data.append("product_id", id);
+      axios.post("../api/index.php", data).then((res) => {
+        console.log(res.data);
+        if (res.data == 1) {
+          alert("Added to Cart");
+          this.displayCarts();
+        } else {
+          console.log(res.data);
+          alert("Something went wrong. Please try again!");
+        }
+      });
+    },
     userOrder() {
       const data = new FormData();
       data.append("method", "userOrder");

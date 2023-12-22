@@ -77,6 +77,14 @@
             <label for="editPrice">Price:</label>
             <input type="number" class="form-control" id="editPrice" placeholder="Enter price" v-model="editPrice">
           </div>
+          <div class="form-group">
+            <label for="editPrice">Status:</label>
+            <select v-model="statsEdit" class="form-control form-control-sm">
+              <option value="" hidden selected>Select</option>
+              <option value="1">Available</option>
+              <option value="2">Unavailable</option>
+            </select>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

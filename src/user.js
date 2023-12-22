@@ -99,23 +99,32 @@ createApp({
     },
     changePasswordProfile() {
       const vue = this;
-      if (vue.newPassword == vue.confirmPassword) {
-        const data = new FormData();
-        data.append("method", "changePasswordProfile");
-        data.append("currentPassword", vue.currentPassword);
-        data.append("confirmPassword", vue.confirmPassword);
-        axios.post(`../api/auth.php`, data)
-          .then(function (r) {
-            if (r.data == 200) {
-              window.location.reload();
-            } else {
-              this.error = "Current password is not Match!";
-            }
-          })
-      } else {
-        this.error = "Password Not Match!";
+    
+      if (vue.newPassword !== vue.confirmPassword) {
+        vue.error = "New password and confirmation password do not match.";
+        return;
       }
+    
+      const data = new FormData();
+      data.append("method", "changePasswordProfile");
+      data.append("currentPassword", vue.currentPassword);
+      data.append("confirmPassword", vue.confirmPassword);
+    
+      axios.post(`../api/auth.php`, data)
+        .then(function (r) {
+          if (r.data === 200) {
+            vue.error = "SucessFully Change Password";
+            window.location.reload();
+          } else {
+            vue.error = "Current password is incorrect!";
+          }
+        })
+        .catch(function (error) {
+          vue.error = "An error occurred while changing the password.";
+          console.error(error); // Log the actual error for debugging purposes
+        });
     },
+    
     displayUser() {
       const vue = this;
       const data = new FormData();

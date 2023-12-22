@@ -9,6 +9,7 @@ createApp({
       favoriteDatas: [],
       orderDatas: [],
       carts: [],
+      deliver_status: 0 // Replace with your actual deliver_status value
     };
   },
   created() {
@@ -29,6 +30,12 @@ createApp({
     },
   },
   methods: {
+    setStatus(step) {
+      // Update the deliver_status only if it matches the current step
+      if (this.product.deliver_status === step - 1) {
+          this.product.deliver_status = step;
+      }
+  },
     removeFavorite(id) {
       const data = new FormData();
       data.append('method', 'removeFavorite');
@@ -94,27 +101,21 @@ createApp({
       data.append("method", "addToMyFavorite");
       data.append("product", id);
       axios.post("../api/index.php", data).then((res) => {
-        if (res.data == 200) {
-          alert("Add to favorites!");
+        if (res.data === 200) {
+          alert("Added to favorites!");
           this.displayMyFavorite();
+        } else if (res.data === 409) {
+          alert("This item is already in your favorites list!");
+          // Handle the case where the item is already in favorites
+          // Example: Do something else, or simply notify the user
         } else {
-          alert(res.data);
+          alert("Error: " + res.data);
         }
+      }).catch((error) => {
+        console.error("Error occurred:", error);
+        alert("An error occurred. Please try again later.");
       });
-    },
-    addToMyFavorite(id) {
-      const data = new FormData();
-      data.append("method", "addToMyFavorite");
-      data.append("product", id);
-      axios.post("../api/index.php", data).then((res) => {
-        if (res.data == 200) {
-          alert("Add to favorites!");
-          this.displayMyFavorite();
-        } else {
-          alert(res.data);
-        }
-      });
-    },
+    },  
     displayMyFavorite() {
       const data = new FormData();
       data.append("method", "displayMyProductFavorites");

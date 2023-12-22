@@ -7,11 +7,14 @@ createApp({
       product: {},
       carts: [],
       transactions: [],
+      HistoryTransactions: [],
+      transactionsAdmin: [],
       favoriteDatas: [],
       favoritesLength: 0,
       orderLength: 0,
       editQuantity: 0,
       editPrice: 0,
+      statsEdit: 0,
       currentPassword: '',
       newPassword: '',
       selectedTransId: 0,
@@ -38,7 +41,9 @@ createApp({
     this.displayProducts();
     this.displayCarts();
     this.displayTransaction();
+    this.displayTransactionAdmin();
     this.displayMyFavorite();
+    this.displayHistoryTransaction();
     this.userOrder();
   },
 
@@ -161,6 +166,28 @@ createApp({
         this.transactions = res.data;
       });
     },
+    displayTransactionAdmin() {
+      const data = new FormData();
+      data.append("method", "displayTransactionAdmin");
+      axios.post("../api/index.php", data).then((res) => {
+        this.transactionsAdmin = res.data;
+      });
+    },
+    updateProductOnApproveFunction(id) {
+      const data = new FormData();
+      data.append("method", "updateProductOnApproveFunction");
+      data.append("id", id);
+      axios.post("../api/index.php", data).then((res) => {
+        alert(res.data);
+      });
+    },
+    displayHistoryTransaction() {
+      const data = new FormData();
+      data.append("method", "displayHistoryTransaction");
+      axios.post("../api/index.php", data).then((res) => {
+        this.HistoryTransactions = res.data;
+      })
+    },
     selectTrans(tid) {
       const data = new FormData();
       data.append("method", "displayTransaction");
@@ -168,7 +195,7 @@ createApp({
         for(var v of res.data){
           if(v.trans_id == tid){
             this.selectedTransId = v.trans_id;
-            this.selectedTransStatus = v.status;
+            this.selectedTransStatus = v.deliver_status;
           }
         }
       });
@@ -179,8 +206,7 @@ createApp({
       data.append("ID", this.selectedTransId );
       data.append("status", this.TransStatus);
       axios.post("../api/index.php", data).then((res) => {
-        alert(res.data);
-        this.displayTransaction();
+        this.updateProductOnApproveFunction(this.selectedTransId);
       });
     },
     addToMyFavorite(id) {
@@ -208,6 +234,7 @@ createApp({
       this.product = product;
       this.editQuantity = product.quantity;
       this.editPrice = product.price;
+      this.statsEdit = product.status;
       var modal = document.getElementById("editProduct");
       var modalInstance = new bootstrap.Modal(modal);
       modalInstance.show();
@@ -218,6 +245,7 @@ createApp({
       data.append("id", this.product.id);
       data.append("quantity", this.editQuantity);
       data.append("price", this.editPrice);
+      data.append("status", this.statsEdit);
       axios.post("../api/index.php", data).then((res) => {
         if (res.data == 1) {
           alert("Changes have been saved!");

@@ -20,6 +20,25 @@ function getAllMyCart()
     $query->close();
 }
 
+function displayTransactionAdmin()
+{
+    global $con;
+    $userId = $_POST['user_id'];
+
+    $sql = displayTransactionAdminQuery();
+    $query = $con->prepare($sql);
+    $query->execute();
+    $result = $query->get_result();
+    $data = [];
+    while ($r = $result->fetch_assoc()) {
+        $data[] = $r;
+    }
+
+    echo json_encode($data);
+
+    $query->close();
+}
+
 function sentToTransaction()
 {
     global $con;
@@ -152,6 +171,25 @@ function displayTransaction()
     $query->close();
 }
 
+function displayHistoryTransaction()
+{
+    global $con;
+
+    $sql = displayHistoryTransactionQuery();
+    $query = $con->prepare($sql);
+    $query->execute();
+    $result = $query->get_result();
+    $data = [];
+
+    while ($r = $result->fetch_assoc()) {
+        $r['images'] = json_decode($r['images']);
+        $data[] = $r;
+    }
+
+    echo json_encode($data);
+    $query->close();
+}
+
 function userOrder()
 {
     global $con;
@@ -228,6 +266,26 @@ function getQrCodeForAdminqFunction()
     $query->close();
 }
 
+function updateProductOnApproveFunction()
+{
+    global $con;
+    $id = $_POST['id'];
+
+    $sql = updateProductOnApproveQuery();
+    $query = $con->prepare($sql);
+    $query->bind_param('i', $id);
+    $query->execute();
+    $result = $query->get_result();
+
+    if (!$result) {
+        echo 200;
+    } else {
+        echo 401;
+    }
+
+    $query->close();
+}
+
 
 function selectAllMyCart()
 {
@@ -256,17 +314,22 @@ function adminDashboardViewPaidQuery()
 
 function adminDashboardNoPaidPaidQuery()
 {
-    return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode` != ''";
+    return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode` != '' AND `deliver_status` = 0";
 }
 
 function adminDashboardDeliveredPaidQuery()
 {
-    return  "SELECT COUNT(*) AS deliveryStatus FROM `transaction` WHERE `deliver_status` = 1 AND `proofOfQRcode` > 0";
+    return "SELECT COUNT(*) AS deliveryStatus FROM `transaction` WHERE `deliver_status` = 3";
 }
 
 function displayTransactionQuery()
 {
-    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id ORDER BY T.created_date DESC";
+    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile, U.address FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id WHERE T.deliver_status != 3 ORDER BY T.created_date DESC";
+}
+
+function displayHistoryTransactionQuery()
+{
+    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile, U.address FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id WHERE T.deliver_status = 3 ORDER BY T.created_date DESC";
 }
 
 function updateThisTransaction()
@@ -282,4 +345,13 @@ function adminRecentOrdersQuery()
 function userOrderQuery()
 {
     return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id WHERE t.buyer_id = ? ORDER BY T.created_date DESC ";
+}
+
+function updateProductOnApproveQuery()
+{
+    return "UPDATE `products` AS p INNER JOIN `transaction` AS t ON t.product_id = p.id SET p.quantity = p.quantity - (t.transaction_amount / p.price) WHERE t.trans_id = ?";
+}
+
+function displayTransactionAdminQuery(){
+    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile, U.address FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id GROUP BY T.buyer_id ORDER BY T.created_date DESC";
 }

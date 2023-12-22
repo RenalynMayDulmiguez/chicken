@@ -48,7 +48,7 @@
                   <li class="right-side d-block">
                     <a href="favorites.php" class="btn p-0 position-relative header-wishlist">
                       <i data-feather="heart"></i>
-                      <span class="position-absolute top-0 start-100 translate-middle badge">
+                      <span class="position-absolute top-0 start-100 translate-middle badge"v-if="favoritesLength >0" >
                         {{ favoritesLength }}
                         <span class="visually-hidden">unread messages</span>
                       </span>
@@ -57,7 +57,7 @@
                   <li class="right-side d-block">
                     <a href="myorders.php" class="btn p-0 position-relative header-wishlist">
                       My Orders
-                      <span class="position-absolute top-0 start-100 translate-middle badge">
+                      <span class="position-absolute top-0 start-100 translate-middle badge" v-if="orderLength >0">
                         {{ orderLength }}
                       </span>
                     </a>
@@ -66,7 +66,7 @@
                     <div class="onhover-dropdown header-badge">
                       <button type="button" class="btn p-0 position-relative header-wishlist">
                         <i data-feather="shopping-cart"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge">
+                        <span class="position-absolute top-0 start-100 translate-middle badge" v-if="carts.length >0">
                           {{ carts.length}}
                           <span class="visually-hidden">unread messages</span>
                         </span>
@@ -75,7 +75,7 @@
                         <ul class="cart-list">
                           <li v-for="cart, i in carts" class="product-box-contain">
                             <div class="drop-cart">
-                              <a :href="`product.php?product_id=${cart.product_id}`" class="drop-image">
+                              <a  class="drop-image">
                                 <img :src="`../uploads/products/${cart.mainImage}`" class="lazyload" :alt="cart.mainImage" />
                               </a>
 
@@ -94,13 +94,13 @@
                             </div>
                           </li>
                         </ul>
-
                         <div class="price-box">
                           <h5>Total :</h5>
                           <h4 class="theme-color fw-bold">{{ getTotal }}</h4>
                         </div>
 
-                        <div class="button-group float-end">
+                        <div class="button-group d-flex justify-content-between align-items-between">
+                          <a href="cart.php" class="fs-6">View Cart</a>
                           <a href="checkout.php" class="btn btn-sm cart-button theme-bg-color text-white">Checkout Items</a>
                         </div>
                       </div>

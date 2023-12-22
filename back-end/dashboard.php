@@ -178,7 +178,7 @@ session_start();
                     <tbody>
                       <tr v-for="product in products">
                         <td>{{product.name}}</td>
-                        <td style="background-color: rgb(255, 225, 225); color:black;">{{product.quantity}}</td>
+                        <td style="background-color: rgb(255, 225, 225); color:black;">{{ product.quantity <= 0 ? 'Out Of Stock':'Available'}}</td>
                       </tr>
                     </tbody>
                   </table>

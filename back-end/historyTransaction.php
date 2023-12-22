@@ -12,7 +12,7 @@ session_start();
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <title>ORDER LIST</title>
+  < <title>Product</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/vendors/font-awesome.css" />
@@ -45,8 +45,8 @@ session_start();
               <div class="card card-table">
                 <div class="card-body">
                   <div class="title-header option-title d-sm-flex d-block">
-                    <h5>ORDER List</h5>
-                    <h5><a href="historyTransaction.php" class="text-primary">History</a></h5>
+                    <h5>History Transaction List</h5>
+                    <h5><a href="transaction.php" class="text-primary">Transaction</a></h5>
                   </div>
                   <div>
                     <div class="table-responsive">
@@ -62,12 +62,11 @@ session_start();
                             <th cols="5%">Delivery Status</th>
                             <th cols="5%">Proof of payment</th>
                             <th cols="5%">Mobile Number</th>
-                            <th cols="5%">Change Status</th>
                           </tr>
                         </thead>
 
                         <tbody>
-                          <tr v-for="(t, index) in transactionsAdmin">
+                          <tr v-for="(t, index) in HistoryTransactions">
                             <td>{{1+index++}}</td>
                             <td>
                               <div class="table-image">
@@ -78,42 +77,13 @@ session_start();
                             <td class="td-price text-capitalize">{{ t.fullname }}</td>
                             <td class="td-price text-capitalize">₱{{ t.transaction_amount }}</td>
                             <td class="td-price text-capitalize">{{ t.address }}</td>
-                            <td class="td-price text-capitalize">{{ t.paymentMethod == 1 ? 'CASH ON DELIVERY': t.paymentMethod == 2 ? 'GCASH' : '' }}</td>
-                            <td class="td-price text-capitalize">{{ t.deliver_status == 0 ? 'Waiting for Approval' : t.deliver_status == 1 ? 'Approved': t.deliver_status == 2 ? 'ON THE WAY' : t.deliver_status == 3 ? 'Deliver' : 'Decline' }}</td>
+                            <td class="td-price text-capitalize">{{ t.paymentMethod }}</td>
+                            <td class="td-price text-capitalize">{{ t.deliver_status == 0 ? 'Waiting for Approval' : t.deliver_status == 1 ? 'Approved': t.deliver_status == 2 ? 'Decline' : 'Deliver' }}</td>
                             <td class="td-price"><img :src="t.proofOfQRcode" class="img-fluid d-block" width="100" :alt="product.mainImage" /></td>
                             <td class="td-price text-capitalize">{{ t.mobile }}</td>
-                            <td class="d-flex justify-content-center my-2">
-                              <button class="btn btn-sm btn-info col-4" data-bs-toggle="modal" data-bs-target="#updateTransaction" @click="selectTrans(t.trans_id)">Update</button>
-                            
-                            
-                              <button class="btn-primary col-6">sds</button>
-                            </td>
                           </tr>
                         </tbody>
                       </table>
-                      <div class="modal fade" id="updateTransaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Update Transaction</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <select v-model="TransStatus" class="form-control">
-                                <option value="selected" selected hidden>Select</option>
-                                <option value="1" :disabled="selectedTransStatus != 0">Approve</option>
-                                <option value="2" :disabled="selectedTransStatus != 1">ON THE WAY</option>
-                                <option value="3" :disabled="selectedTransStatus != 2">DELIVER</option>
-                                <option value="4" :disabled="selectedTransStatus != 0">DECLINE</option>
-                              </select>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" @click="updateStatusTransaction">Save changes</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>

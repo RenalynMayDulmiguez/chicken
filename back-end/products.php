@@ -63,6 +63,7 @@ session_start();
                             <th>Product Name</th>
                             <th>Current Qty</th>
                             <th>Price</th>
+                            <th>Status</th>
                             <th>Option</th>
                           </tr>
                         </thead>
@@ -74,12 +75,10 @@ session_start();
                                 <img :src="`../uploads/products/${product.mainImage}`" class="img-fluid" :alt="product.mainImage" />
                               </div>
                             </td>
-
                             <td>{{ product.name }}</td>
                             <td>{{ product.quantity }}</td>
-
                             <td class="td-price">₱{{ product.price }}</td>
-
+                            <td class="td-price">{{ product.status == 1 ? 'Available':'Unavailable' }}</td>
                             <td>
                               <ul>
                                 <li>

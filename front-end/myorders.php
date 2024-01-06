@@ -54,13 +54,46 @@ include './shared/head.php'; ?>
                                 </h5>
                                 <h5 class="price">
                                     Quantity: <span class="theme-color">{{ product.transaction_amount / product.price }}</span>
+<<<<<<< HEAD
                                 </h5>
                                 <h5 class="price">
                                     Total Amount: <span class="theme-color">₱ {{ product.transaction_amount }}</span>
                                 </h5>
                                 <h5 class="price">
                                     Status: <span class="theme-color">{{ product.deliver_status == 0 ? 'Pending' : product.deliver_status == 1 ? 'Approved': product.deliver_status == 2 ? 'Decline' : 'Deliver' }}</span>
+=======
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                                 </h5>
+                                <h5 class="price">
+                                    Total Amount: <span class="theme-color">₱ {{ product.transaction_amount }}</span>
+                                </h5>                 
+                            <div class="tracking">
+                        <div class="mt-2 theme-color fs-2 text-center">Status</div>
+                    </div>
+                    <div class="progress-track" v-if="product.deliver_status !== -1 && product.deliver_status < 4">
+                        <ul id="progressbar">
+                            <li :class="{ 'active': product.deliver_status >= 0 }" id="step1">
+                                <i class="fas fa-hourglass-start"></i>
+                                Pending
+                            </li>
+                            <li :class="{ 'active': product.deliver_status >= 1 }" id="step2"  v-bind:class="{ 'inactive': product.deliver_status < 1 }">
+                                <i class="fas fa-check-circle"></i>
+                               Approved
+                            </li>
+                            <li :class="{ 'active': product.deliver_status >= 2 }" id="step3" v-bind:class="{ 'inactive': product.deliver_status < 2 }">
+                                <i class="fas fa-shipping-fast"></i>
+                                On the way
+                            </li>
+                            <li :class="{ 'active': product.deliver_status >= 3 }" id="step4" v-bind:class="{ 'inactive': product.deliver_status < 3 }">
+                                <i class="fas fa-box"></i>
+                                Deliver
+                            </li>
+                        </ul>
+                    </div>
+                    <div v-else class="text-center price">
+                        Decline
+                    </div>
+                            </div>
                             </div>
                         </div>
                     </div>

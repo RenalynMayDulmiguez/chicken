@@ -89,15 +89,20 @@ include './shared/head.php';
               <div v-for="product in products" class="<?php echo $_SESSION['id'] == null ? 'visually-hidden col-md-3' : 'col-md-3' ?>">
                 <div class="product-box product-box-bg wow fadeInUp" data-wow-delay="0.1s">
                   <div class="product-image">
-                    <a :href="`product.php?product_id=${product.id}`">
+                    <a>
                       <img :src="`../uploads/products/${product.mainImage}`" class="img-fluid blur-up lazyload" alt="">
                     </a>
                     <ul class="product-option">
+<<<<<<< HEAD
                       <li data-bs-toggle="tooltip" data-bs-placement="top" title="add to cart">
                         <a href="javascript:void(0)" @click="addToCart(product.id)" class="notifi-wishlist">
                           <i data-feather="shopping-cart"></i>
                         </a>
                       </li>
+=======
+                    <li data-bs-toggle="tooltip" data-bs-placement="top" title="add to cart"><a v-if="product.status !== 2" href="javascript:void(0)" @click="addToCart(product.id)" class="notifi-wishlist"><i data-feather="shopping-cart"></i></a>
+                        <a v-else href="javascript:void(0)" class="notifi-wishlist disabled"><i data-feather="shopping-cart"></i></a></li>
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                       <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
                         <a href="javascript:void(0)" @click="addToMyFavorite(product.id)" class="notifi-wishlist">
                           <i data-feather="heart"></i>
@@ -112,7 +117,12 @@ include './shared/head.php';
                       </h6>
                     </a>
                     <h5 class="sold text-content">
+<<<<<<< HEAD
                       <span class="theme-color price">₱ {{ product.price }}</span>
+=======
+                      <span class="theme-color price">₱ {{ product.price }}</span><br>
+                      <span class="theme-color price">Status: {{ product.status == 1 ? 'Available':'Unavailable' }}</span>
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                     </h5>
                     <div class="product-rating mt-2">
                       <h6 class="theme-color">Stock {{ product.quantity }}</h6>

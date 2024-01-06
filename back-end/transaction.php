@@ -12,7 +12,7 @@ session_start();
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  < <title>Product</title>
+   <title>ORDER LIST</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="assets/css/vendors/font-awesome.css" />
@@ -45,7 +45,11 @@ session_start();
               <div class="card card-table">
                 <div class="card-body">
                   <div class="title-header option-title d-sm-flex d-block">
+<<<<<<< HEAD
                     <h5>Payment's  List</h5>
+=======
+                    <h5>ORDER List</h5>
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                     <h5><a href="historyTransaction.php" class="text-primary">History</a></h5>
                   </div>
                   <div>
@@ -67,7 +71,11 @@ session_start();
                         </thead>
 
                         <tbody>
+<<<<<<< HEAD
                           <tr v-for="(t, index) in transactions">
+=======
+                          <tr v-for="(t, index) in transactionsAdmin">
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                             <td>{{1+index++}}</td>
                             <td>
                               <div class="table-image">
@@ -78,12 +86,20 @@ session_start();
                             <td class="td-price text-capitalize">{{ t.fullname }}</td>
                             <td class="td-price text-capitalize">₱{{ t.transaction_amount }}</td>
                             <td class="td-price text-capitalize">{{ t.address }}</td>
+<<<<<<< HEAD
                             <td class="td-price text-capitalize">{{ t.paymentMethod == 1 ? 'COD': t.paymentMethod == 2 ? 'GCASH' : '' }}</td>
                             <td class="td-price text-capitalize">{{ t.deliver_status == 0 ? 'Waiting for Approval' : t.deliver_status == 1 ? 'Approved': t.deliver_status == 2 ? 'Decline' : 'Deliver' }}</td>
+=======
+                            <td class="td-price text-capitalize">{{ t.paymentMethod == 1 ? 'CASH ON DELIVERY': t.paymentMethod == 2 ? 'GCASH' : '' }}</td>
+                            <td class="td-price text-capitalize">{{ t.deliver_status == 0 ? 'Waiting for Approval' : t.deliver_status == 1 ? 'Approved': t.deliver_status == 2 ? 'ON THE WAY' : t.deliver_status == 3 ? 'Deliver' : 'Decline' }}</td>
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                             <td class="td-price"><img :src="t.proofOfQRcode" class="img-fluid d-block" width="100" :alt="product.mainImage" /></td>
                             <td class="td-price text-capitalize">{{ t.mobile }}</td>
                             <td class="d-flex justify-content-center my-2">
-                              <button class="btn btn-sm btn-info col-12" data-bs-toggle="modal" data-bs-target="#updateTransaction" @click="selectTrans(t.trans_id)">Update</button>
+                              <button class="btn btn-sm btn-info col-4" data-bs-toggle="modal" data-bs-target="#updateTransaction" @click="selectTrans(t.trans_id)">Update</button>
+                            
+                            
+                              <button class="btn-primary col-6">sds</button>
                             </td>
                           </tr>
                         </tbody>
@@ -97,11 +113,20 @@ session_start();
                             </div>
                             <div class="modal-body">
                               <select v-model="TransStatus" class="form-control">
+<<<<<<< HEAD
                             <option value="selected" selected hidden>Select</option>
                             <option value="1" :disabled="TransStatus !== 'selected' && TransStatus !== '0'">Approve</option>
                             <option value="2" :disabled="TransStatus !== 'selected' && TransStatus !== '0'">Decline</option>
                             <option value="3" :disabled="TransStatus !== '1'">Deliver</option>
                           </select>
+=======
+                                <option value="selected" selected hidden>Select</option>
+                                <option value="1" :disabled="selectedTransStatus != 0">Approve</option>
+                                <option value="2" :disabled="selectedTransStatus != 1">ON THE WAY</option>
+                                <option value="3" :disabled="selectedTransStatus != 2">DELIVER</option>
+                                <option value="4" :disabled="selectedTransStatus != 0">DECLINE</option>
+                              </select>
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

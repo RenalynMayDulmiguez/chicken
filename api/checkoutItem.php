@@ -20,6 +20,25 @@ function getAllMyCart()
     $query->close();
 }
 
+function displayTransactionAdmin()
+{
+    global $con;
+    $userId = $_POST['user_id'];
+
+    $sql = displayTransactionAdminQuery();
+    $query = $con->prepare($sql);
+    $query->execute();
+    $result = $query->get_result();
+    $data = [];
+    while ($r = $result->fetch_assoc()) {
+        $data[] = $r;
+    }
+
+    echo json_encode($data);
+
+    $query->close();
+}
+
 function sentToTransaction()
 {
     global $con;
@@ -314,10 +333,13 @@ function adminDashboardViewPaidQuery()
 function adminDashboardNoPaidPaidQuery()
 {
     return  "SELECT COUNT(*) AS notPaid FROM `transaction` WHERE `proofOfQRcode` != '' AND `deliver_status` = 0";
+<<<<<<< HEAD
 }
 function adminDashBoardDeclineQuery()
 {
     return  "SELECT COUNT(*) AS declineStatus FROM `transaction` WHERE  `deliver_status` = 2";
+=======
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
 }
 
 function adminDashboardDeliveredPaidQuery()
@@ -354,3 +376,10 @@ function updateProductOnApproveQuery()
 {
     return "UPDATE `products` AS p INNER JOIN `transaction` AS t ON t.product_id = p.id SET p.quantity = p.quantity - (t.transaction_amount / p.price) WHERE t.trans_id = ?";
 }
+<<<<<<< HEAD
+=======
+
+function displayTransactionAdminQuery(){
+    return "SELECT T.*, P.name as productName, P.description, P.quantity, P.price, P.images, U.fullname, U.username, U.mobile, U.address FROM `transaction` as T INNER JOIN `products` as P INNER JOIN `users` as U ON T.product_id = P.id AND T.buyer_id = U.id GROUP BY T.buyer_id ORDER BY T.created_date DESC";
+}
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f

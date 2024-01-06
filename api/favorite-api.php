@@ -28,16 +28,29 @@ function addToMyFavorite()
     $user_id = $_POST['user_id'];
     $product = $_POST['product'];
 
+    // Check if the combination of user_id and product already exists
+    $check_sql = "SELECT COUNT(*) AS count FROM `favorites` WHERE `user_id` = ? AND `product_id` = ?";
+    $check_query = $con->prepare($check_sql);
+    $check_query->bind_param('ii', $user_id, $product);
+    $check_query->execute();
+    $result = $check_query->get_result();
+    $row = $result->fetch_assoc();
 
-    $sql = "INSERT INTO `favorites`(`user_id`, `product_id`) VALUES (?,?)";
-    $query = $con->prepare($sql);
-    $query->bind_param('ii', $user_id, $product);
-    $query->execute();
+    // If the combination exists, do not insert again
+    if ($row['count'] > 0) {
+        echo 409; 
+    } else {
+        // Insert the combination if it doesn't exist
+        $insert_sql = "INSERT INTO `favorites`(`user_id`, `product_id`) VALUES (?,?)";
+        $insert_query = $con->prepare($insert_sql);
+        $insert_query->bind_param('ii', $user_id, $product);
+        $insert_query->execute();
 
-    if ($query->affected_rows >= 1) {
-        echo 200;
-    }else{
-        echo 401;
+        if ($insert_query->affected_rows >= 1) {
+            echo 200; // OK - Indicates successful insertion
+        } else {
+            echo 401; // Unauthorized or insertion failed
+        }
     }
 }
 function addToCartFromFavorites()

@@ -8,11 +8,16 @@ createApp({
       carts: [],
       transactions: [],
       HistoryTransactions: [],
+<<<<<<< HEAD
+=======
+      transactionsAdmin: [],
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
       favoriteDatas: [],
       favoritesLength: 0,
       orderLength: 0,
       editQuantity: 0,
       editPrice: 0,
+      statsEdit: 0,
       currentPassword: '',
       newPassword: '',
       selectedTransId: 0,
@@ -39,6 +44,7 @@ createApp({
     this.displayProducts();
     this.displayCarts();
     this.displayTransaction();
+    this.displayTransactionAdmin();
     this.displayMyFavorite();
     this.displayHistoryTransaction();
     this.userOrder();
@@ -163,6 +169,16 @@ createApp({
         this.transactions = res.data;
       });
     },
+<<<<<<< HEAD
+=======
+    displayTransactionAdmin() {
+      const data = new FormData();
+      data.append("method", "displayTransactionAdmin");
+      axios.post("../api/index.php", data).then((res) => {
+        this.transactionsAdmin = res.data;
+      });
+    },
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
     updateProductOnApproveFunction(id) {
       const data = new FormData();
       data.append("method", "updateProductOnApproveFunction");
@@ -224,6 +240,7 @@ createApp({
       this.product = product;
       this.editQuantity = product.quantity;
       this.editPrice = product.price;
+      this.statsEdit = product.status;
       var modal = document.getElementById("editProduct");
       var modalInstance = new bootstrap.Modal(modal);
       modalInstance.show();
@@ -234,6 +251,7 @@ createApp({
       data.append("id", this.product.id);
       data.append("quantity", this.editQuantity);
       data.append("price", this.editPrice);
+      data.append("status", this.statsEdit);
       axios.post("../api/index.php", data).then((res) => {
         if (res.data == 1) {
           alert("Changes have been saved!");

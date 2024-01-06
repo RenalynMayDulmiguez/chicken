@@ -187,7 +187,12 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         <div class="delivery-detail">
                           <h6>Hello,</h6>
+<<<<<<< HEAD
                           <h5><?= isset($_SESSION['id']) ?  $_SESSION['fullname']  : '' ?></h5>
+=======
+                          <h5><?php echo isset($_SESSION['fullname']) ? $_SESSION['fullname'] : ''; ?></h5>
+                          <!-- <h5><?= isset($_SESSION['id']) ?  $_SESSION['fullname']  : '' ?></h5> -->
+>>>>>>> 015afe10c47b6b006c06356ba91145f634c3c55f
                         </div>
                       </div>
 

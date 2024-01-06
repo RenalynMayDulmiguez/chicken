@@ -69,7 +69,7 @@ include './shared/head.php';
                               <i data-feather="minus" aria-hidden="true"></i>
                             </button>
                             <input class="form-control input-number qty-input" type="number" name="quantity" :value="cart.quantity" @change="updateQuantity('change', $event, cart.id)">
-                            <button type="button" @click="updateQuantity('plus', cart.quantity, cart.id)" class="btn qty-right-plus">
+                            <button type="button" :disabled="cart.quantity >= cart.qu" @click="updateQuantity('plus', cart.quantity, cart.id)" class="btn qty-right-plus">
                               <i data-feather="plus" aria-hidden="true"></i>
                             </button>
                           </div>

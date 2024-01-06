@@ -132,13 +132,19 @@ function UpdateProfile(){
     $query = $con->prepare($sql);
     $query->bind_param('sssssi', $username, $fullname, $address, $mobile, $email, $id);
     $query->execute();
-    $user = $query->get_result();
-    $query->close();
 
-    if(!$user){
-        echo 200;
+    if($query->affected_rows > 0){
+        $_SESSION['username'] = $username;
+        $_SESSION['fullname'] = $fullname;
+        $_SESSION['address'] = $address;
+        $_SESSION['mobile'] = $mobile;
+        $_SESSION['email'] = $email;
+        echo 200; // Successful update
     }else{
-        echo 400;
+        echo 400; // Update failed
     }
+
+    $query->close();
 }
+
 

@@ -51,10 +51,11 @@ function editProduct() {
   $id = $_POST['id'];
   $quantity = $_POST['quantity'];
   $price = $_POST['price'];
+  $status = $_POST['status'];
 
-  $sql = 'CALL updateProduct(?, ?, ?)';
+  $sql = 'CALL updateProduct(?, ?, ?, ?)';
   $query = $con->prepare($sql);
-  $query->bind_param('iii', $id, $quantity, $price);
+  $query->bind_param('iiii', $id, $quantity, $price, $status);
   $query->execute();
 
   if ($query->affected_rows >= 1) {

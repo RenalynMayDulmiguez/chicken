@@ -7,6 +7,7 @@ createApp({
       product: {},
       carts: [],
       transactions: [],
+      HistoryTransactions: [],
       favoriteDatas: [],
       favoritesLength: 0,
       orderLength: 0,
@@ -39,6 +40,7 @@ createApp({
     this.displayCarts();
     this.displayTransaction();
     this.displayMyFavorite();
+    this.displayHistoryTransaction();
     this.userOrder();
   },
 
@@ -161,6 +163,21 @@ createApp({
         this.transactions = res.data;
       });
     },
+    updateProductOnApproveFunction(id) {
+      const data = new FormData();
+      data.append("method", "updateProductOnApproveFunction");
+      data.append("id", id);
+      axios.post("../api/index.php", data).then((res) => {
+        alert(res.data);
+      });
+    },
+    displayHistoryTransaction() {
+      const data = new FormData();
+      data.append("method", "displayHistoryTransaction");
+      axios.post("../api/index.php", data).then((res) => {
+        this.HistoryTransactions = res.data;
+      })
+    },
     selectTrans(tid) {
       const data = new FormData();
       data.append("method", "displayTransaction");
@@ -168,7 +185,7 @@ createApp({
         for(var v of res.data){
           if(v.trans_id == tid){
             this.selectedTransId = v.trans_id;
-            this.selectedTransStatus = v.status;
+            this.selectedTransStatus = v.deliver_status;
           }
         }
       });
@@ -179,8 +196,7 @@ createApp({
       data.append("ID", this.selectedTransId );
       data.append("status", this.TransStatus);
       axios.post("../api/index.php", data).then((res) => {
-        alert(res.data);
-        this.displayTransaction();
+        this.updateProductOnApproveFunction(this.selectedTransId);
       });
     },
     addToMyFavorite(id) {

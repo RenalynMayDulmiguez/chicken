@@ -94,13 +94,13 @@
                 <a href="index.php" class="text-content">Home</a>
               </li>
               <li>
-              <a href="https://www.facebook.com" class="text-content">
+              <a href="https://www.facebook.com/messages/t/24746303098294372" class="text-content">
               <i class="fab fa-facebook text-primary"></i>
               Facebook
             </a>
               </li>
               <li>
-              <a href="https://www.instagram.com" class="text-content">
+              <a href="https://www.instagram.com/direct/t/6951401148274114/" class="text-content">
                 <i class="fab fa-instagram text-danger"></i>
                 Instagram</a>
               </li>

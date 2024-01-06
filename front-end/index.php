@@ -17,9 +17,9 @@ include './shared/head.php';
         <div class="image-container">
           <img src="../assets/images/chickenback.jpg" alt="Slide 1" class="w-full h-full object-cover">
           <div class="image-text">
-            <p class="text-lg font-semibold">Crispy & Fried</p>
+            <!-- <p class="text-lg font-semibold">Crispy & Fried</p>
             <p class="mt-2 text-uppercase">Fried Chicken</p>
-            <p class="mt-2 text-uppercase">Your favorite Crispy Fried Chicken </p>
+            <p class="mt-2 text-uppercase">Your favorite Crispy Fried Chicken </p> -->
             <a href="#product-area" class="btn text-white mt-xxl-4 mt-2 home-button mend-auto theme-bg-color">Order Now<i class="fa-solid fa-right-long ms-2"></i></a>
           </div>
         </div>
@@ -29,10 +29,10 @@ include './shared/head.php';
         <div class="image-container">
           <img src="../assets/images/chick2.jpg" alt="Slide 2" class="w-full h-full object-cover">
           <div class="image-text">
-            <p class="text-lg font-semibold text-uppercase">We'll Fry Your Crispy</p>
+            <!-- <p class="text-lg font-semibold text-uppercase">We'll Fry Your Crispy</p>
             <p class="mt-2 text-uppercase">Juicy Chicken</p>
             <p class="mt-2 text-uppercase">and with every bite explodes</p>
-            <p class="mt-2 text-uppercase">with juicy flavors!</p>
+            <p class="mt-2 text-uppercase">with juicy flavors!</p> -->
             <a href="#product-area" class="btn text-white mt-xxl-4 mt-2 home-button mend-auto theme-bg-color">Order Now<i class="fa-solid fa-right-long ms-2"></i></a>
           </div>
         </div>
@@ -42,10 +42,10 @@ include './shared/head.php';
         <div class="image-container">
           <img src="../assets/images/makapasmo.jpg" alt="Slide 4" class="w-full h-full object-cover">
           <div class="image-text">
-            <p class="text-lg font-semibold"> With other alternative products</p>
+            <!-- <p class="text-lg font-semibold"> With other alternative products</p>
             <p class="mt-2 text-uppercase">to satisfy your street</p>
             <p class="mt-2 text-uppercase"> food cravings such as</p>
-            <p class="text-uppercase"> Fried Lumpia, Siomai, and Many more!</p>
+            <p class="text-uppercase"> Fried Lumpia, Siomai, and Many more!</p> -->
             <a href="#product-area" class="btn text-white mt-xxl-4 mt-2 home-button mend-auto theme-bg-color">Order Now<i class="fa-solid fa-right-long ms-2"></i></a>
           </div>
         </div>
@@ -56,11 +56,11 @@ include './shared/head.php';
         <div class="image-container">
           <img src="../assets/images/makagutom.jpg" alt="Slide 3" class="w-full h-full object-cover">
           <div class="image-text">
-            <p class="text-lg font-semibold text-uppercase">Refreshing Drinks</p>
+            <!-- <p class="text-lg font-semibold text-uppercase">Refreshing Drinks</p>
             <p class=" mt-2 text-uppercase">Carbonated Drinks</p>
             <p class=" mt-2 text-uppercase">We also have soft drinks</p>
             <p class=" mt-2 text-uppercase"> juice to cleanse your palate</p>
-            <p class=" mt-2 text-uppercase"> after eating!</p>
+            <p class=" mt-2 text-uppercase"> after eating!</p> -->
             <a href="#product-area" class="btn text-white mt-xxl-4 mt-2 home-button mend-auto theme-bg-color">Order Now<i class="fa-solid fa-right-long ms-2"></i></a>
           </div>
         </div>
@@ -85,23 +85,19 @@ include './shared/head.php';
                 </span>
               </div>
             </div>
-
-
             <div class="row">
-              <div v-for="product in products" class="<?php echo $_SESSION['id'] == null ? 'visually-hidden' : ''?>col-md-3">
+              <div v-for="product in products" class="<?php echo $_SESSION['id'] == null ? 'visually-hidden col-md-3' : 'col-md-3' ?>">
                 <div class="product-box product-box-bg wow fadeInUp" data-wow-delay="0.1s">
                   <div class="product-image">
                     <a :href="`product.php?product_id=${product.id}`">
                       <img :src="`../uploads/products/${product.mainImage}`" class="img-fluid blur-up lazyload" alt="">
                     </a>
                     <ul class="product-option">
-
                       <li data-bs-toggle="tooltip" data-bs-placement="top" title="add to cart">
                         <a href="javascript:void(0)" @click="addToCart(product.id)" class="notifi-wishlist">
                           <i data-feather="shopping-cart"></i>
                         </a>
                       </li>
-
                       <li data-bs-toggle="tooltip" data-bs-placement="top" title="Wishlist">
                         <a href="javascript:void(0)" @click="addToMyFavorite(product.id)" class="notifi-wishlist">
                           <i data-feather="heart"></i>
@@ -115,16 +111,12 @@ include './shared/head.php';
                         {{ product.name }}
                       </h6>
                     </a>
-
                     <h5 class="sold text-content">
                       <span class="theme-color price">₱ {{ product.price }}</span>
-                      <span class="theme-color price">₱ {{ product.price }}</span>
                     </h5>
-
                     <div class="product-rating mt-2">
                       <h6 class="theme-color">Stock {{ product.quantity }}</h6>
                     </div>
-
                   </div>
                 </div>
               </div>

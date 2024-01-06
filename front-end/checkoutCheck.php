@@ -37,15 +37,15 @@ include './shared/head.php';
                                             </div>
                                         </div>
                                     </div>
-                                    <h6>For further assistance, please contact me using <b class="text-danger">thisissample@gmail.com</b> or <b class="text-danger">0129312312</b> or you can message me via facebook <b class="text-danger">facebook.com/helloworld</b></h6>
+                                    <h6>For further assistance, please contact me using <b class="text-danger">CFC@gmail.com</b> or <b class="text-danger">0129312312</b> or you can message me via facebook <b class="text-danger">facebook.com/helloworld</b></h6>
                                 </div>
                                 <div class="col-lg-5">
 
                                     <div class="card bg-primary text-white rounded-3">
                                         <div class="card-body p-5 text-center">
                                             <i class="fas fa-check-circle fa-5x m-5"></i><br>
-                                            <span>Successfully Paid</span>
-                                            <button class="col-12 btn btn-lg btn-info" @click="deleteAllThisItems(cartsId)">Okay</button>
+                                            <!-- <span>Successfully Paid</span> -->
+                                            <button class="col-12 btn btn-lg btn-info" @click="deleteAllThisItems(cartsId)">Thank You! <br> Your Order Successfully paid!</button>
                                         </div>
                                     </div>
 

@@ -17,6 +17,7 @@ createApp({
       paid: 0,
       notpaid: 0,
       delivercount: 0,
+      declinecount: 0,
     };
   },
 
@@ -39,6 +40,7 @@ createApp({
     this.displayAllUser();
     this.adminDashboardViewPaidFunction();
     this.adminDashboardNoPaidPaidFunction();
+    this.adminDashBoardDeclineFunction();
     this.adminDashboardDeliveredPaidFunction();
     this.adminRecentOrders();
   },
@@ -242,6 +244,15 @@ createApp({
       axios.post("../api/index.php", data).then((res) => {
         for (var v of res.data) {
           this.notpaid = v.notPaid;
+        }
+      });
+    },
+    adminDashBoardDeclineFunction() {
+      const data = new FormData();
+      data.append("method", "adminDashBoardDeclineFunction");
+      axios.post("../api/index.php", data).then((res) => {
+        for (var v of res.data) {
+          this.declinecount = v.declineStatus;
         }
       });
     },

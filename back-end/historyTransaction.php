@@ -45,8 +45,8 @@ session_start();
               <div class="card card-table">
                 <div class="card-body">
                   <div class="title-header option-title d-sm-flex d-block">
-                    <h5>Payment's  List</h5>
-                    <h5><a href="historyTransaction.php" class="text-primary">History</a></h5>
+                    <h5>History Transaction List</h5>
+                    <h5><a href="transaction.php" class="text-primary">Transaction</a></h5>
                   </div>
                   <div>
                     <div class="table-responsive">
@@ -62,12 +62,11 @@ session_start();
                             <th cols="5%">Delivery Status</th>
                             <th cols="5%">Proof of payment</th>
                             <th cols="5%">Mobile Number</th>
-                            <th cols="5%">Change Status</th>
                           </tr>
                         </thead>
 
                         <tbody>
-                          <tr v-for="(t, index) in transactions">
+                          <tr v-for="(t, index) in HistoryTransactions">
                             <td>{{1+index++}}</td>
                             <td>
                               <div class="table-image">
@@ -78,38 +77,13 @@ session_start();
                             <td class="td-price text-capitalize">{{ t.fullname }}</td>
                             <td class="td-price text-capitalize">₱{{ t.transaction_amount }}</td>
                             <td class="td-price text-capitalize">{{ t.address }}</td>
-                            <td class="td-price text-capitalize">{{ t.paymentMethod == 1 ? 'COD': t.paymentMethod == 2 ? 'GCASH' : '' }}</td>
+                            <td class="td-price text-capitalize">{{ t.paymentMethod }}</td>
                             <td class="td-price text-capitalize">{{ t.deliver_status == 0 ? 'Waiting for Approval' : t.deliver_status == 1 ? 'Approved': t.deliver_status == 2 ? 'Decline' : 'Deliver' }}</td>
                             <td class="td-price"><img :src="t.proofOfQRcode" class="img-fluid d-block" width="100" :alt="product.mainImage" /></td>
                             <td class="td-price text-capitalize">{{ t.mobile }}</td>
-                            <td class="d-flex justify-content-center my-2">
-                              <button class="btn btn-sm btn-info col-12" data-bs-toggle="modal" data-bs-target="#updateTransaction" @click="selectTrans(t.trans_id)">Update</button>
-                            </td>
                           </tr>
                         </tbody>
                       </table>
-                      <div class="modal fade" id="updateTransaction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Update Transaction</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <select v-model="TransStatus" class="form-control">
-                            <option value="selected" selected hidden>Select</option>
-                            <option value="1" :disabled="TransStatus !== 'selected' && TransStatus !== '0'">Approve</option>
-                            <option value="2" :disabled="TransStatus !== 'selected' && TransStatus !== '0'">Decline</option>
-                            <option value="3" :disabled="TransStatus !== '1'">Deliver</option>
-                          </select>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="button" class="btn btn-primary" @click="updateStatusTransaction">Save changes</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>

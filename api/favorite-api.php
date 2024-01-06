@@ -40,7 +40,6 @@ function addToMyFavorite()
         echo 401;
     }
 }
-
 function addToCartFromFavorites()
 {
     global $con;
@@ -55,22 +54,22 @@ function addToCartFromFavorites()
 
     if ($query->affected_rows >= 1) {
         echo 200;
-    }else{
+    } else {
         echo 401;
     }
 }
 
 
-function removeFavorite() {
+function removeFavorite()
+{
     global $con;
     $query = $con->prepare('DELETE FROM favorites WHERE id = ?');
     $query->bind_param('i', $_POST['id']);
     $query->execute();
 
-    if($query->affected_rows >= 1) {
+    if ($query->affected_rows >= 1) {
         echo 1;
     } else {
         echo 0;
     }
-
 }

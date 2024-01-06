@@ -140,6 +140,14 @@ session_start();
             <div class="c-dashboardInfo col-lg-3 col-md-6">
               <div class="wrap">
                 <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
+                  <i class="fas fa-times"></i> Total Decline
+                </h4>
+                <span class="hind-font caption-12 c-dashboardInfo__count">{{declinecount}}</span>
+              </div>
+            </div>
+            <div class="c-dashboardInfo col-lg-3 col-md-6">
+              <div class="wrap">
+                <h4 class="heading heading5 hind-font medium-font-weight c-dashboardInfo__title">
                   <i class="fas fa-cube"></i> Total Products
                 </h4>
                 <a href="products.php"><span class="hind-font caption-12 c-dashboardInfo__count">{{products.length}}</span></a>
@@ -178,7 +186,7 @@ session_start();
                     <tbody>
                       <tr v-for="product in products">
                         <td>{{product.name}}</td>
-                        <td style="background-color: rgb(255, 225, 225); color:black;">{{product.quantity}}</td>
+                        <td style="background-color: rgb(255, 225, 225); color:black;">{{ product.quantity <= 0 ? 'Out Of Stock':'Available'}}</td>
                       </tr>
                     </tbody>
                   </table>

@@ -44,7 +44,7 @@ session_start();
               <div class="card card-table">
                 <div class="card-body">
                   <div class="title-header option-title">
-                    <h5>All Users</h5>
+                    <h5>All Users list</h5>
                   </div>
 
                   <div class="table-responsive table-product">

@@ -79,7 +79,7 @@
                   <div class="card">
                     <div class="card-body">
                       <div class="card-header-2">
-                        <h5>Product Information</h5>
+                        <h5>Product Details</h5>
                       </div>
 
                       <form @submit="addProduct" class="theme-form theme-form-2 mega-form">

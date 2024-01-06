@@ -68,6 +68,9 @@ if (!isset($_SESSION['id'])) {
     color: black;
     background: orange;
   }
+  .rounded-image {
+    border-radius: 50%;
+  }
 </style>
 
 <body class="theme-color-1">
@@ -184,7 +187,7 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         <div class="delivery-detail">
                           <h6>Hello,</h6>
-                          <h5><?= isset($_SESSION['id']) ?  $_SESSION['user']['fullname']  : '' ?></h5>
+                          <h5><?= isset($_SESSION['id']) ?  $_SESSION['fullname']  : '' ?></h5>
                         </div>
                       </div>
 
@@ -224,28 +227,31 @@ if (!isset($_SESSION['id'])) {
 
 
       <div class="container" id="edit-app">
-        <div class="row">
-          <div class="col-md-6">
-            <h3 class="text-black" style="font-size: 35px;">Profile</h3>
-            <form class="h2">
-              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Username:</span> <span class="fw-light fst-italic">{{ usernamei }}</span></h2>
-              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Fullname:</span> <span class="fw-light fst-italic">{{ fullnamei }}</span></h2>
-              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Address:</span> <span class="fw-light fst-italic">{{ addressi }}</span></h2>
-              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Mobile:</span> <span class="fw-light fst-italic">{{ mobilei }}</span></h2>
-              <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Email:</span> <span class="fw-light fst-italic">{{ emaili }}</span></h2>
-              <a class="btn btn-md btn-success float-end mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background: blue; color: white;" @click="getUser(idi)">Edit</a>
-              <a class="btn btn-md btn-warning float-end mt-3 me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal" @click="getUser(idi)" style="background: green; color: white;">Change Password</a>
-            </form>
-          </div>
-          <div class="col-md-6 d-flex justify-content-center align-items-center">
-            <!-- Add your photo here -->
-            <img :src="qrCode" alt="Profile Photo" width="100 " class="img-fluid">
-            <!-- <i class="fas fa-user fa-5x"></i> -->
-          </div>
-        </div>
+      <div class="row">
+    <div class="col-md-6 d-flex flex-column align-items-center justify-content-center">
+      <img id="profileImage" src="../assets/images/cake/bg.jpg" alt="Profile Photo" width="150" class="rounded-image text-center">
+      <input type="file" id="imageInput" style="display: none;">
+      <label for="imageInput" class="btn btn-md btn-primary mt-3" style="background: blue; color: white;">Upload Image</label>
+    </div>
+
+    <div class="col-md-6  align-items-center">
+      <div>
+        <h3 class="text-black" style="font-size: 35px;">Profile</h3><br>
+        <form class="h2">
+            <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Username:</span> <span class="fw-light fst-italic">{{ usernamei }}</span></h2>
+            <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Fullname:</span> <span class="fw-light fst-italic">{{ fullnamei }}</span></h2>
+            <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Address:</span> <span class="fw-light fst-italic">{{ addressi }}</span></h2>
+            <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Mobile:</span> <span class="fw-light fst-italic">{{ mobilei }}</span></h2>
+            <h2 class="form-control mb-4 bg-white text-black"><span class="fw-bold">Email:</span> <span class="fw-light fst-italic">{{ emaili }}</span></h2>
+            <a class="btn btn-md btn-success float-end mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal" style="background: blue; color: white;" @click="getUser(idi)">Edit</a>
+            <a class="btn btn-md btn-warning float-end mt-3 me-2" data-bs-toggle="modal" data-bs-target="#changePasswordModal" @click="getUser(idi)" style="background: green; color: white;">Change Password</a>
+        </form>
+    </div>
+</div>
       </div>
+      
       <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" id="edit-app">
+        <div class="modal-dialog modal-dialog-centered " id="edit-app">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="editModalLabel">Edit User Profile</h5>
@@ -356,6 +362,26 @@ if (!isset($_SESSION['id'])) {
     this.classList.toggle("fa-unlock");
     });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+  const profileImage = document.getElementById('profileImage');
+  const imageInput = document.getElementById('imageInput');
+
+  imageInput.addEventListener('change', function () {
+    const file = imageInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        profileImage.src = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+});
+</script>
     </div>
 
 

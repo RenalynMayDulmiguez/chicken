@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 11:29 AM
+-- Generation Time: Dec 19, 2023 at 01:56 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -25,9 +25,9 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addProduct` (IN `p_user_id` INT, IN `p_name` VARCHAR(255), IN `p_description` VARCHAR(255), IN `p_quantity` INT, IN `p_price` DOUBLE, IN `p_images` TEXT, IN `p_qrcode` TEXT)   BEGIN
-    INSERT INTO products(user_id, name, description, quantity, price, images, qrcode)
-    VALUES(p_user_id, p_name, p_description, p_quantity, p_price, p_images, p_qrcode);
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addProduct` (IN `p_user_id` INT, IN `p_name` VARCHAR(255), IN `p_description` VARCHAR(255), IN `p_quantity` INT, IN `p_price` DOUBLE, IN `p_images` TEXT)   BEGIN
+    INSERT INTO products(user_id, name, description, quantity, price, images)
+    VALUES(p_user_id, p_name, p_description, p_quantity, p_price, p_images);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addToCart` (IN `p_user_id` INT, IN `p_product_id` INT)   BEGIN
@@ -210,6 +210,16 @@ CREATE TABLE `carts` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `user_id`, `product_id`, `quantity`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(7, 5, 38, 1, '2023-11-30 13:48:06', '2023-11-30 13:48:06', NULL),
+(8, 5, 42, 1, '2023-11-30 13:48:13', '2023-11-30 13:48:13', NULL),
+(9, 6, 39, 1, '2023-12-04 03:51:00', '2023-12-04 03:51:00', NULL),
+(13, 7, 44, 1, '2023-12-04 04:19:26', '2023-12-04 04:19:26', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -229,7 +239,8 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 5, 38, '2023-11-30 09:53:03', '2023-11-30 09:53:03');
+(13, 4, 44, '2023-12-17 15:40:13', '2023-12-17 15:40:13'),
+(14, 4, 44, '2023-12-17 15:40:15', '2023-12-17 15:40:15');
 
 -- --------------------------------------------------------
 
@@ -255,10 +266,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `user_id`, `name`, `description`, `quantity`, `price`, `images`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(37, 1, '23123', '123123', 12, 12, '[\"product-23123-77081.jpg\"]', '2023-11-26 06:41:25', '2023-11-26 06:41:25', NULL),
-(38, 1, '123123', 'This is just a sample', 10, 11, '[\"product-123123-32732.png\"]', '2023-11-28 07:01:59', '2023-11-28 07:01:59', NULL),
-(39, 1, '123123', 'This is just a sample', 10, 11, '[\"product-123123-73487.jpg\"]', '2023-11-28 07:17:23', '2023-11-28 07:17:23', NULL),
-(40, 1, 'Prods', 'This is just a sample.', 11, 11, '[\"product-Prods-67426.png\"]', '2023-11-28 07:18:54', '2023-11-28 07:18:54', NULL);
+(37, 1, '23123', '123123', 10, 12, '[\"product-23123-77081.jpg\"]', '2023-11-26 06:41:25', '2023-11-26 06:41:25', '2023-12-04 03:56:28'),
+(38, 1, '123123', 'This is just a sample', 3, 11, '[\"product-123123-32732.png\"]', '2023-11-28 07:01:59', '2023-11-28 07:01:59', '2023-12-04 03:56:23'),
+(39, 1, '123123', 'This is just a sample', 6, 11, '[\"product-123123-73487.jpg\"]', '2023-11-28 07:17:23', '2023-11-28 07:17:23', '2023-12-04 03:56:35'),
+(40, 1, 'Prods', 'This is just a sample.', 9, 11, '[\"product-Prods-67426.png\"]', '2023-11-28 07:18:54', '2023-11-28 07:18:54', '2023-12-04 03:56:18'),
+(41, 1, '123123', '123123', 121, 123, '[\"product-123123-76614.jpg\"]', '2023-11-30 13:38:06', '2023-11-30 13:38:06', '2023-12-04 03:56:13'),
+(42, 1, '123', '123123', 115, 12, '[\"product-123-56908.jpg\"]', '2023-11-30 13:38:27', '2023-11-30 13:38:27', '2023-12-04 03:56:09'),
+(43, 1, 'chicken  feet', 'lami nga dili bidle', 82, 15, '[\"product-chicken  feet-23407.jpg\"]', '2023-12-04 04:09:00', '2023-12-04 04:09:00', NULL),
+(44, 1, 'chicken ', 'chicken', 5, 25, '[\"product-chicken -22385.jpg\"]', '2023-12-04 04:18:29', '2023-12-04 04:18:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -283,8 +298,12 @@ CREATE TABLE `transaction` (
 --
 
 INSERT INTO `transaction` (`trans_id`, `product_id`, `seller_id`, `buyer_id`, `transaction_amount`, `paymentMethod`, `proofOfQRcode`, `deliver_status`, `created_date`) VALUES
-(1, 38, 1, 5, 33, '2', '', 0, '2023-11-30 10:17:52'),
-(2, 39, 1, 5, 11, '2', '../uploads/products/3.png', 0, '2023-11-30 10:17:52');
+(10, 44, 1, 4, 250, '1', 'product-123123-76614.jpg', 3, '2023-12-17 14:48:13'),
+(11, 43, 1, 4, 30, '1', 'product-123123-76614.jpg', 3, '2023-12-17 14:50:37'),
+(12, 44, 1, 4, 175, '2', '../uploads/products/gcash.jpg', 2, '2023-12-18 03:14:57'),
+(13, 43, 1, 4, 180, '2', '../uploads/products/gcash.jpg', 3, '2023-12-18 03:17:00'),
+(14, 43, 1, 9, 135, '2', '../uploads/products/gcash.jpg', 3, '2023-12-18 05:23:08'),
+(15, 44, 1, 4, 25, '2', '../uploads/products/intro_2.jpg', 0, '2023-12-19 00:54:33');
 
 -- --------------------------------------------------------
 
@@ -315,11 +334,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `profile`, `fullname`, `username`, `password`, `email`, `address`, `mobile`, `role`, `created_at`, `updated_at`, `status`, `qrcodeMain`, `counterlock`, `deleted_at`) VALUES
-(1, '', 'Admin', 'Admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'LLC', '09123456789', 1, '2023-11-24 02:33:02', '2023-11-24 02:33:02', 0, '../uploads/products/3.png', 0, NULL),
+(1, '', 'Admin', 'Admin', '21232f297a57a5a743894a0e4a801fc3', 'admin@gmail.com', 'LLC', '09123456789', 1, '2023-11-24 02:33:02', '2023-11-24 02:33:02', 0, '../uploads/products/qrcode.jpg', 0, NULL),
 (2, '', '12312323', 'Sample Of This', 'caf1a3dfb505ffed0d024130f58c5cfa', '123123@123', '123123', '123123', 1, '2023-11-26 05:11:03', '2023-11-26 05:11:03', 0, '', 0, NULL),
-(3, '', '123123', '123123', '4297f44b13955235245b2497399d7a93', '123123@123123', '123123', '123123', 0, '2023-11-28 06:32:01', '2023-11-28 06:32:01', 0, '', 0, NULL),
-(4, '', '123123', '123123', '202cb962ac59075b964b07152d234b70', '123@123123', '123123', '123123', 0, '2023-11-28 06:34:12', '2023-11-28 06:34:12', 0, '', 0, NULL),
-(5, '../uploads/products/3.png', '123', '123', '202cb962ac59075b964b07152d234b70', '123@123123', '123', '123', 0, '2023-11-28 06:47:13', '2023-11-28 06:47:13', 0, '', 0, NULL);
+(3, '', '1231234', '123123', '4297f44b13955235245b2497399d7a93', '123123@123123', '123123', '123123', 0, '2023-11-28 06:32:01', '2023-11-30 13:41:38', 0, '', 0, '2023-11-30 13:41:57'),
+(4, '', '123123', '123123', '202cb962ac59075b964b07152d234b70', '123@123', '123123', '1231234', 0, '2023-11-28 06:34:12', '2023-12-04 04:03:02', 0, '', 0, '2023-12-17 10:50:21'),
+(5, '../uploads/products/3.png', '123', '123', '202cb962ac59075b964b07152d234b70', 'q', '123', '123', 0, '2023-11-28 06:47:13', '2023-11-28 06:47:13', 0, '', 0, NULL),
+(6, '../uploads/products/381017611_813509207223329_5352612233222037167_n.jpg', 'renalyn', 'rena123', '202cb962ac59075b964b07152d234b70', 'renalyn@gmail.com', 'pusok llc ', '0921312123', 0, '2023-12-04 03:50:29', '2023-12-04 03:50:29', 0, NULL, 0, '2023-12-04 03:57:00'),
+(7, '../uploads/products/381017611_813509207223329_5352612233222037167_n.jpg', 'bitay mendez', 'bitay', '7c6f5bdc16b3748b481fb5ea98bd4ace', 'mendez@gmail.com', 'buagsong cordova', '09923880528', 0, '2023-12-04 04:13:32', '2023-12-04 04:13:32', 0, NULL, 0, NULL),
+(8, '../uploads/products/381017611_813509207223329_5352612233222037167_n.jpg', 'elgrids V mendez', 'pogi123', '81dc9bdb52d04dc20036dbd8313ed055', 'bitay@123', 'isla kanto panki', '922312312', 0, '2023-12-04 04:51:18', '2023-12-04 04:51:18', 0, NULL, 0, NULL),
+(9, '../uploads/products/bleulock.jpg', 'stephanie rose pogoy mendez', 'phanie', '202cb962ac59075b964b07152d234b70', 'phanie@123', 'cpc', '922312312', 0, '2023-12-18 05:22:17', '2023-12-18 05:22:17', 0, NULL, 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -368,31 +391,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `trans_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

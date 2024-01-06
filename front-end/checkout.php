@@ -38,7 +38,7 @@ include './shared/head.php';
                                             </div>
                                         </div>
                                     </div>
-                                    <h6>For further assistance, please contact me using <b class="text-danger">thisissample@gmail.com</b> or <b class="text-danger">0129312312</b> or you can message me via facebook <b class="text-danger">facebook.com/helloworld</b></h6>
+                                    <h6>For further assistance, please contact me using <b class="text-danger">CFC@gmail.com</b> or <b class="text-danger">09493493122</b> or you can message me via facebook <b class="text-danger">facebook.com/cfc.facebok</b></h6>
                                 </div>
                                 <div class="col-lg-5">
 

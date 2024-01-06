@@ -94,13 +94,13 @@
                             </div>
                           </li>
                         </ul>
-
                         <div class="price-box">
                           <h5>Total :</h5>
                           <h4 class="theme-color fw-bold">{{ getTotal }}</h4>
                         </div>
 
-                        <div class="button-group float-end">
+                        <div class="button-group d-flex justify-content-between align-items-between">
+                          <a href="cart.php" class="fs-6">View Cart</a>
                           <a href="checkout.php" class="btn btn-sm cart-button theme-bg-color text-white">Checkout Items</a>
                         </div>
                       </div>

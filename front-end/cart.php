@@ -10,7 +10,7 @@ include './shared/head.php';
       <div class="row">
         <div class="col-12">
           <div class="breadscrumb-contain">
-            <h2>Cart</h2>
+            <h2>Product Cart</h2>
             <nav>
               <ol class="breadcrumb mb-0">
                 <li class="breadcrumb-item">
@@ -109,7 +109,7 @@ include './shared/head.php';
 
                 <li class="align-items-start">
                   <h4>Shipping</h4>
-                  <h4 class="price text-end">₱35.00</h4>
+                  <h4 class="price text-end">₱10.00</h4>
                 </li>
               </ul>
             </div>
@@ -124,8 +124,7 @@ include './shared/head.php';
             <div class="button-group cart-button">
               <ul>
                 <li>
-                  <button class="btn btn-animation proceed-btn fw-bold">Process To
-                    Checkout</button>
+                  <a href="checkout.php" class="btn btn-animation proceed-btn fw-bold">Process To Checkout</a>
                 </li>
 
                 <li>
